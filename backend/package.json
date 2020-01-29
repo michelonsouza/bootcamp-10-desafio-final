@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "init": "docker-compose up -d && yarn install && yarn db:init",
     "db:init": "sequelize db:migrate && sequelize db:seed:all",
     "dev": "nodemon src/server.js",
     "dev:debug": "nodemon --inspect src/server.js"

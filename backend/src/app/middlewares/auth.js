@@ -10,19 +10,19 @@ export default async (req, res, next) => {
     return res.format('Authorization header not provided', 401);
   }
 
-  const [, token] = authorization;
+  const [, token] = authorization.split(' ');
 
   if (!token) {
     return res.format('Token is not provided', 401);
   }
 
   try {
-    const { id } = await promisify(jwt.verify)(token, authConfig.secret);
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
-    req.userId = id;
+    req.userId = decoded.id;
 
     return next();
   } catch (error) {
-    return res.format('Token invalid', 401);
+    return res.format(error, 401);
   }
 };

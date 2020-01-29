@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 
 import User from '../models/User';
 
+import authConfig from '../../config/auth';
+
 class AuthController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -14,11 +16,17 @@ class AuthController {
         .required(),
     });
 
-    await schema.validate(req.body).catch(errors => res.format(errors, 400));
+    await schema
+      .validate(req.body)
+      .catch(errors => res.format(errors.errors, 400));
 
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.format('User not exists', 401);
+    }
 
     if (!(await user.checkPassword(password))) {
       return res.format('E-mail or password is invalid', 401);
@@ -32,8 +40,8 @@ class AuthController {
         name,
         email,
       },
-      token: jwt.sign({ id }, process.env.SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
       }),
     });
   }
