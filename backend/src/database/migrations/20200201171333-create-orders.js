@@ -11,14 +11,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false,
+      recipient_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'recipients', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true,
       },
       deliveryman_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'couriers', key: 'id' },
+        references: { model: 'delivery_mans', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: true,

@@ -22,7 +22,7 @@ class RecipientController {
 
     await schema
       .validate(req.body, { abortEarly: false })
-      .catch(errors => res.format(errors.errors, 400));
+      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
 
     const {
       id,
@@ -64,7 +64,7 @@ class RecipientController {
 
     await schema
       .validate(req.body, { abortEarly: false })
-      .catch(errors => res.format(errors.errors, 400));
+      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
 
     const recipient = await Recipient.findByPk(req.params.id);
 

@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('couriers', {
+    return queryInterface.createTable('delivery_mans', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -21,6 +21,7 @@ module.exports = {
         references: { model: 'files', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -34,6 +35,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('couriers');
+    return queryInterface.dropTable('delivery_mans');
   },
 };

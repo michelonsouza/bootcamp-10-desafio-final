@@ -21,7 +21,7 @@ class App {
     this.server.use(helmet());
     this.server.use(cors());
     this.server.use(express.json());
-    this.server.use(responseNormalize);
+    this.server.use(responseNormalize());
   }
 
   routes() {
