@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import publicRoutes from './publicRoutes';
-import privateRoutes from './privateRoutes';
+import auth from './auth';
+import recipients from './recipients';
 
 const routes = new Router();
 
-routes.use(publicRoutes);
-routes.use(privateRoutes);
+routes.use(auth);
+routes.use(recipients);
 
 export default routes;
