@@ -18,7 +18,7 @@ class AuthController {
 
     await schema
       .validate(req.body)
-      .catch(({ errors }) => res.format(errors, 400));
+      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
 
     const { email, password } = req.body;
 

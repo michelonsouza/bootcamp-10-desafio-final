@@ -4,6 +4,7 @@ import './database';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { resolve } from 'path';
 
 import responseNormalize from './app/middlewares/responseNormalize';
 
@@ -22,6 +23,10 @@ class App {
     this.server.use(cors());
     this.server.use(express.json());
     this.server.use(responseNormalize());
+    this.server.use(
+      '/files',
+      express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
   }
 
   routes() {
