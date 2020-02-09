@@ -5,5 +5,8 @@ tmp/uploads/*
 
 # FILES
 .env
+.DS_Store
 .env.production
 !tmp/uploads/.gitkeep
+!tmp/uploads/fake_avatar.png
+!tmp/uploads/fake_signature.jpg

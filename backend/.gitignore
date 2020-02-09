@@ -6,4 +6,8 @@ emailtest/
 
 # FILES
 .env
+.env.production
+.DS_Store
 !tmp/uploads/.gitkeep
+!tmp/uploads/fake_avatar.png
+!tmp/uploads/fake_signature.jpg
