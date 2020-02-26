@@ -34,6 +34,8 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+    transition: all 200ms ease;
+    border: 0;
   }
 
   .switch-wrapper {

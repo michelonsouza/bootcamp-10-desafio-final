@@ -42,8 +42,12 @@ export const SendButton = styled.button`
   background: ${colors.primary};
   color: ${colors.white};
   font-weight: bold;
-  margin-top: ${defaults.spacing.padding}px;
+  margin: ${defaults.spacing.padding}px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 200ms ease;
+  width: 100%;
 
   &:hover {
     background: ${darken(0.06, colors.primary)};

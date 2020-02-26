@@ -7,7 +7,7 @@ export default () => (req, res, next) => {
         success: body.success,
         data: data.rows,
         pagination: {
-          page: data.page,
+          page: Number(data.page),
           perPage: data.limit,
           total: data.count,
         },

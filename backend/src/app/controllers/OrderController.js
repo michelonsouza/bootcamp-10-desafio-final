@@ -1,4 +1,5 @@
 import { isBefore, parseISO } from 'date-fns';
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 
 import Order from '../models/Order';
@@ -13,9 +14,14 @@ import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
-    const { page = 1, limit = 20 } = req.query;
+    const { page = 1, limit = 6, q = '' } = req.query;
 
     const orders = await Order.findAndCountAll({
+      where: {
+        product: {
+          [Op.iLike]: `%${q}%`,
+        },
+      },
       offset: (page - 1) * limit,
       limit,
       attributes: [
@@ -25,6 +31,7 @@ class OrderController {
         'start_date',
         'end_date',
         'canceled_at',
+        'status',
       ],
       include: [
         {
@@ -95,7 +102,14 @@ class OrderController {
 
     const delivery = await Order.findOne({
       where: { id },
-      attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
+      attributes: [
+        'id',
+        'product',
+        'canceled_at',
+        'start_date',
+        'end_date',
+        'status',
+      ],
       include: [
         {
           model: Recipient,
@@ -134,11 +148,11 @@ class OrderController {
       recipient_id: Yup.number(),
       deliveryman_id: Yup.number(),
       product: Yup.string(),
-      canceled_at: Yup.date(),
-      start_date: Yup.date(),
-      end_date: Yup.date().when('start_date', (start_date, field) =>
-        start_date ? field.date() : null
-      ),
+      // canceled_at: Yup.date(),
+      // start_date: Yup.date(),
+      // end_date: Yup.date().when('start_date', (start_date, field) =>
+      //   start_date ? field.date() : null
+      // ),
     });
 
     await schema
@@ -195,7 +209,15 @@ class OrderController {
     await order.update(req.body);
 
     const newOrder = await Order.findByPk(req.params.id, {
-      attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
+      attributes: [
+        'id',
+        'product',
+        'canceled_at',
+        'start_date',
+        'end_date',
+        'canceled_at',
+        'status',
+      ],
       include: [
         {
           model: Recipient,
@@ -238,6 +260,15 @@ class OrderController {
 
     const delivery = await Order.findOne({
       where: { id: req.params.id },
+      attributes: [
+        'id',
+        'product',
+        'canceled_at',
+        'start_date',
+        'end_date',
+        'canceled_at',
+        'status',
+      ],
       include: [
         {
           model: Recipient,
@@ -261,7 +292,7 @@ class OrderController {
       ],
     });
 
-    const invalid = deliveryValidator(delivery, ['canceled_at']);
+    const invalid = deliveryValidator(delivery, ['canceled_at', 'end_date']);
 
     if (invalid) {
       return res.format(invalid.data, invalid.status);
