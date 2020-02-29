@@ -47,14 +47,12 @@ export default function DeliveryProblems() {
   return (
     <>
       {loading && <LoadingOverlay />}
-      {!loading && (
-        <DataSet
-          labels={labels}
-          actions={actions}
-          data={formattedProblems}
-          halfColumn
-        />
-      )}
+      <DataSet
+        labels={labels}
+        actions={actions}
+        data={formattedProblems}
+        halfColumn
+      />
       {selectedProblem && (
         <Modal problem={selectedProblem} close={setSelectedProblem} />
       )}

@@ -17,8 +17,8 @@ export function* getRecipients({ payload }) {
     const { data, pagination } = response;
     yield put(recipientsSuccess(data, pagination));
   } catch (error) {
-    toast.error('Erro 500: Internal server error');
     yield put(recipientFailure());
+    toast.error('Erro 500: Internal server error');
   }
 }
 

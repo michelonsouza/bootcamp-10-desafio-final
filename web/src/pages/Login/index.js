@@ -64,7 +64,6 @@ export default function Login() {
             label="Seu E-mail"
             type="email"
             placeholder="example@email.com"
-            search
           />
           <Input
             icon={MdLock}

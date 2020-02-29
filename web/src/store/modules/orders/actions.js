@@ -42,8 +42,8 @@ export function updateOrderRequest(data, id) {
   };
 }
 
-export function updateOrderFailed() {
+export function orderFailure() {
   return {
-    type: types.UPDATE_ORDER_FAILURE,
+    type: types.ORDER_FAILURE,
   };
 }

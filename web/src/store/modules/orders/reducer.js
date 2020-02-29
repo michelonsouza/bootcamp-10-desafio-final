@@ -14,7 +14,8 @@ export default function orders(state = initialData, action = {}) {
       case types.CREATE_ORDER:
       case types.ORDERS_REQUEST:
       case types.UPDATE_ORDER_REQUEST:
-      case types.CANCEL_ORDER_REQUEST: {
+      case types.CANCEL_ORDER_REQUEST:
+      case types.ORDERS_FILTERED: {
         draft.loading = true;
         break;
       }
@@ -24,7 +25,7 @@ export default function orders(state = initialData, action = {}) {
         draft.pagination = action.payload.pagination;
         break;
       }
-      case types.UPDATE_ORDER_FAILURE: {
+      case types.ORDER_FAILURE: {
         draft.loading = false;
         break;
       }

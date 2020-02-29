@@ -125,7 +125,7 @@ export default function Orders() {
   return (
     <>
       {loading && <LoadingOverlay />}
-      {!loading && !orderEdit && !create && (
+      {!orderEdit && !create && (
         <>
           <SearchBar
             title="Gerenciando Encomendas"

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import * as types from '~/store/types';
 
-import { deliverymansSuccess, updateDeliverymanFailure } from './actions';
+import { deliverymansSuccess, deliverymanFailure } from './actions';
 
 export function* getDeliverymans({ payload }) {
   try {
@@ -38,7 +38,7 @@ export function* createDeliveryman({ payload }) {
       toast.error('Erro 500: Internal server error');
     }
 
-    yield put(updateDeliverymanFailure());
+    yield put(deliverymanFailure());
   }
 }
 
@@ -61,7 +61,7 @@ export function* deleteDeliveryman({ payload }) {
     toast.success(`Entregador #${id} excluído com sucesso`);
   } catch (error) {
     toast.error('Erro 500: Internal server error');
-    yield put(updateDeliverymanFailure());
+    yield put(deliverymanFailure());
   }
 }
 
@@ -95,7 +95,10 @@ export function* deliverymanFilter({ payload }) {
     const { data, pagination } = response;
 
     yield put(deliverymansSuccess(data, pagination));
-  } catch (error) {}
+  } catch (error) {
+    yield put(deliverymanFailure());
+    toast.error('Error 500: Internal server error');
+  }
 }
 
 export default all([

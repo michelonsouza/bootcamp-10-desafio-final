@@ -14,7 +14,8 @@ export default function recipients(state = initalData, action = {}) {
       case types.RECIPIENTS_REQUEST:
       case types.CREATE_RECIPIENT:
       case types.RECIPIENTS_UPDATE_REQUEST:
-      case types.DELETE_RECIPIENT: {
+      case types.DELETE_RECIPIENT:
+      case types.RECIPIENTS_FILTERED_REQUEST: {
         draft.loading = true;
         break;
       }

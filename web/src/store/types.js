@@ -4,11 +4,6 @@ export const LOGIN_SUCCESS = '@auth/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = '@auth/LOGIN_FAILURE';
 export const LOGOUT = '@auth/LOGOUT';
 
-// @USER
-export const UPDATE_USER_REQUEST = '@user/UPDATE_USER_REQUEST';
-export const UPDATE_USER_SUCCESS = '@user/UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAILURE = '@user/UPDATE_USER_FAILURE';
-
 // @ORDERS
 export const ORDERS_REQUEST = '@orders/ORDERS_REQUEST';
 export const ORDERS_SUCCESS = '@orders/ORDERS_SUCCESS';
@@ -17,7 +12,7 @@ export const CREATE_ORDER = '@orders/CREATE_ORDER';
 export const CANCEL_ORDER_REQUEST = '@orders/CANCEL_ORDER_REQUEST';
 export const UPDATE_ORDER_REQUEST = '@orders/UPDATE_ORDER_REQUEST';
 export const UPDATE_ORDER_SUCCESS = '@orders/UPDATE_ORDER_SUCCESS';
-export const UPDATE_ORDER_FAILURE = '@orders/UPDATE_ORDER_FAILURE';
+export const ORDER_FAILURE = '@orders/ORDER_FAILURE';
 
 // @DELIVERYMANS
 export const DELIVERYMANS_REQUEST = '@deliverymans/DELIVERYMANS_REQUEST';
@@ -30,8 +25,7 @@ export const UPDATE_DELIVERYMAN_REQUEST =
   '@deliverymans/UPDATE_DELIVERYMAN_REQUEST';
 export const UPDATE_DELIVERYMAN_SUCCESS =
   '@deliverymans/UPDATE_DELIVERYMAN_SUCCESS';
-export const UPDATE_DELIVERYMAN_FAILURE =
-  '@deliverymans/UPDATE_DELIVERYMAN_FAILURE';
+export const DELIVERYMAN_FAILURE = '@deliverymans/DELIVERYMAN_FAILURE';
 
 // @RECIPIENTS
 export const CREATE_RECIPIENT = '@recipients/CREATE_RECIPIENT';

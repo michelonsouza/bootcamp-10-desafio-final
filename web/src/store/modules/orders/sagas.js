@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import * as types from '~/store/types';
 
-import { ordersSuccess, updateOrderFailed } from './actions';
+import { ordersSuccess, orderFailure } from './actions';
 
 export function* getOrders({ payload }) {
   try {
@@ -17,6 +17,7 @@ export function* getOrders({ payload }) {
 
     yield put(ordersSuccess(response.data, response.pagination));
   } catch (error) {
+    yield put(orderFailure());
     toast.error('Erro 500: Problema no servidor :(');
   }
 }
@@ -33,8 +34,8 @@ export function* ordersFiltered({ payload }) {
 
     yield put(ordersSuccess(response.data, response.pagination));
   } catch (error) {
+    yield put(orderFailure());
     toast.error('Erro 500: Problema no servidor :(');
-    yield put(updateOrderFailed());
   }
 }
 
@@ -50,8 +51,8 @@ export function* orderUpdate({ payload }) {
     toast.success(`Encomenda #${id} atualizada com sucesso`);
     yield put(ordersSuccess(ordersChanged, pagination));
   } catch (error) {
+    yield put(orderFailure());
     toast.error('Erro 500: Problema no servidor :(');
-    yield put(updateOrderFailed());
   }
 }
 
@@ -64,8 +65,8 @@ export function* createOrder({ payload }) {
     toast.success(`Encomenda #${response.id} cadastrada com sucesso`);
     yield getOrders({ payload: {} });
   } catch (error) {
+    yield put(orderFailure());
     toast.error('Erro ao cadastrar a encomenda');
-    yield put(updateOrderFailed());
   }
 }
 
@@ -78,6 +79,7 @@ export function* cancelOrder({ payload }) {
     toast.success(`Encomenda #${id} cancelada com sucesso`);
     yield getOrders({ payload: {} });
   } catch (error) {
+    yield put(orderFailure());
     toast.error('Erro ao cancelar a encomenda');
   }
 }

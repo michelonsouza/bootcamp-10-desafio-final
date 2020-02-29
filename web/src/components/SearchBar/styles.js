@@ -34,6 +34,7 @@ export const Container = styled.div`
 
       &[disabled] {
         opacity: 0.6;
+        cursor: no-drop;
       }
     }
   }

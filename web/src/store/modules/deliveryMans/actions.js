@@ -28,7 +28,7 @@ export function deleteDeliveryman(id) {
   };
 }
 
-export function deliverymanFilterRequest(query) {
+export function deliverymansFilterRequest(query) {
   return {
     type: types.DELIVERYMANS_FILTER_REQUEST,
     payload: { query },
@@ -49,8 +49,8 @@ export function updateDeliverymanSuccess(data) {
   };
 }
 
-export function updateDeliverymanFailure() {
+export function deliverymanFailure() {
   return {
-    type: types.UPDATE_DELIVERYMAN_FAILURE,
+    type: types.DELIVERYMAN_FAILURE,
   };
 }

@@ -79,7 +79,7 @@ export default function Recipients() {
   return (
     <>
       {loading && <LoadingOverlay />}
-      {!loading && !create && !recipientEdit && (
+      {!create && !recipientEdit && (
         <>
           <SearchBar
             title="Gerenciando Destinatários"

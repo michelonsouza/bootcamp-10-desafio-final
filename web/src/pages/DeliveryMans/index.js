@@ -6,7 +6,7 @@ import {
   createDeliveryman,
   deleteDeliveryman,
   updateDeliverymanRequest,
-  deliverymanFilterRequest,
+  deliverymansFilterRequest,
 } from '~/store/modules/deliverymans/actions';
 
 import { SearchBar, DataSet, LoadingOverlay } from '~/components';
@@ -82,11 +82,11 @@ export default function DeliveryMans() {
   return (
     <>
       {loading && <LoadingOverlay />}
-      {!loading && !deliverymanEdit && !create && (
+      {!deliverymanEdit && !create && (
         <>
           <SearchBar
             title="Gerenciando entregadores"
-            onSearch={deliverymanFilterRequest}
+            onSearch={deliverymansFilterRequest}
             onCreate={handleCreate}
           />
           <DataSet
