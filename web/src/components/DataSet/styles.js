@@ -130,8 +130,8 @@ export const DataItem = styled.div`
       border: 1px solid ${colors.light.colorLight};
       border-radius: ${defaults.radius};
       z-index: 10;
-      width: 150px;
-      right: -55px;
+      width: 230px;
+      right: -94px;
       animation: ${actionAnimate} 200ms ease forwards;
 
       &::before {
@@ -225,6 +225,12 @@ export const Status = styled.span`
 export const DeliveryMans = styled.span`
   display: flex;
   align-items: center;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+  }
 
   div {
     width: 30px;

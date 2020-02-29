@@ -38,23 +38,27 @@ export default function DataSet({
         ))}
         <Actions />
       </DataList>
-      <Pagination onPageChange={onPageChange} pagination={pagination} />
+      {pagination && (
+        <Pagination onPageChange={onPageChange} pagination={pagination} />
+      )}
     </Container>
   );
 }
 
 DataSet.defaultProps = {
-  actions: {},
+  actions: false,
+  pagination: null,
+  onPageChange: null,
 };
 
 DataSet.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onPageChange: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func,
   pagination: PropTypes.shape({
     page: PropTypes.number,
     perPage: PropTypes.number,
     total: PropTypes.number,
-  }).isRequired,
-  actions: PropTypes.shape({}),
+  }),
+  actions: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})]),
 };

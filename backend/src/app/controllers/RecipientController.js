@@ -96,7 +96,10 @@ class RecipientController {
     const recipient = await Recipient.findByPk(req.params.id);
 
     if (!recipient) {
-      return res.format('Recipient not found', 404);
+      return res.format(
+        { type: 'notfound', errors: ['Recipient not found'] },
+        404
+      );
     }
 
     const {
@@ -120,6 +123,22 @@ class RecipientController {
       zipcode,
       complement,
     });
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+    const recipient = await Recipient.findByPk(id);
+
+    if (!recipient) {
+      return res.format(
+        { type: 'notfound', errors: ['Recipient not found'] },
+        404
+      );
+    }
+
+    await recipient.destroy();
+
+    return res.format(`Recipient ${recipient.name} successfull deleted`);
   }
 }
 

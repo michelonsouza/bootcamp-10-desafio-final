@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form } from '@unform/web';
 import Spinner from 'react-spinner-material';
 import * as Yup from 'yup';
+import { MdEmail, MdLock } from 'react-icons/md';
 
 import { colors } from '~/styles/defaults';
 import { loginRequest } from '~/store/modules/auth/actions';
@@ -58,6 +59,7 @@ export default function Login() {
         <img src={logo} alt="FastFeet" />
         <Form ref={formref} onSubmit={handleSubimit}>
           <Input
+            icon={MdEmail}
             name="email"
             label="Seu E-mail"
             type="email"
@@ -65,6 +67,7 @@ export default function Login() {
             search
           />
           <Input
+            icon={MdLock}
             name="password"
             label="Sua Senha"
             type="password"

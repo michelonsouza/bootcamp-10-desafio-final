@@ -6,7 +6,7 @@ import File from '../models/File';
 
 class DeliverymanController {
   async index(req, res) {
-    const { page = 1, limit = 20, q = '' } = req.query;
+    const { page = 1, limit = 6, q = '' } = req.query;
 
     const deliveryMans = await DeliveryMan.findAndCountAll({
       where: {
@@ -21,7 +21,7 @@ class DeliverymanController {
         {
           model: File,
           as: 'avatar',
-          attributes: ['path', 'url'],
+          attributes: ['id', 'path', 'url'],
         },
       ],
     });
@@ -47,7 +47,10 @@ class DeliverymanController {
     });
 
     if (deliveryExists) {
-      return res.format('Delivery man already exists', 401);
+      return res.format(
+        { type: 'unauthorized', errors: ['Delivery man already exists'] },
+        401
+      );
     }
 
     const { id } = await DeliveryMan.create(req.body);
@@ -58,7 +61,7 @@ class DeliverymanController {
         {
           model: File,
           as: 'avatar',
-          attributes: ['path', 'url'],
+          attributes: ['id', 'path', 'url'],
         },
       ],
     });
@@ -83,7 +86,7 @@ class DeliverymanController {
         {
           model: File,
           as: 'avatar',
-          attributes: ['path', 'url'],
+          attributes: ['id', 'path', 'url'],
         },
       ],
     });

@@ -58,6 +58,10 @@ export const Content = styled.div`
   top: 30%;
   left: calc(50% - 175px);
 
+  p {
+    color: ${colors.light.colorDefault};
+  }
+
   div {
     margin-top: ${defaults.spacing.margin}px;
 

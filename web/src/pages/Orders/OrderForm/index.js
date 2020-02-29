@@ -33,51 +33,59 @@ export default function OrderForm({
           <button type="button" onClick={onBack}>
             <MdChevronLeft size={26} color={colors.white} /> Voltar
           </button>
-          <button type="button" onClick={handleSubmit}>
+          <button type="submit" form="order-form">
             <MdCheck size={26} color={colors.white} /> Salvar
           </button>
         </div>
       </FormHeader>
-      <Form ref={formRef} onSubmit={handleSubmit} initialData={order}>
+      <Form
+        id="order-form"
+        ref={formRef}
+        onSubmit={handleSubmit}
+        initialData={order}
+      >
         <div>
           <SelectInput
             label="Destinatário"
             onSearch={query => loadRecipients(query)}
-            selected={{
-              value: order.recipient.id,
-              label: order.recipient.name,
-            }}
+            selected={
+              order && {
+                value: order.recipient.id,
+                label: order.recipient.name,
+              }
+            }
             name="recipient_id"
+            placeholder="Selecionar destinatário"
+            required
           />
           <SelectInput
             label="Entregador"
             onSearch={query => loadDeliveryMans(query)}
-            selected={{
-              value: order.deliveryman.id,
-              label: order.deliveryman.name,
-            }}
+            selected={
+              order && {
+                value: order.deliveryman.id,
+                label: order.deliveryman.name,
+              }
+            }
             name="deliveryman_id"
+            placeholder="Selecionar entregador"
+            required
           />
         </div>
-        <Input label="Nome do produto" name="product" type="text" />
+        <Input
+          label="Nome do produto"
+          name="product"
+          type="text"
+          placeholder="Nome do produto"
+          required
+        />
       </Form>
     </EditContainer>
   );
 }
 
 OrderForm.defaultProps = {
-  order: {
-    id: -1,
-    product: '',
-    deliveryman: {
-      id: -1,
-      name: '',
-    },
-    recipient: {
-      id: -1,
-      name: '',
-    },
-  },
+  order: null,
   edit: false,
 };
 

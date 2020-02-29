@@ -11,8 +11,10 @@ const initialData = {
 export default function orders(state = initialData, action = {}) {
   return produce(state, draft => {
     switch (action.type) {
+      case types.CREATE_ORDER:
       case types.ORDERS_REQUEST:
-      case types.UPDATE_ORDER_REQUEST: {
+      case types.UPDATE_ORDER_REQUEST:
+      case types.CANCEL_ORDER_REQUEST: {
         draft.loading = true;
         break;
       }

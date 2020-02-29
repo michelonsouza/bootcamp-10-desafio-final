@@ -11,7 +11,7 @@ import Input from '../Input';
 
 import { Container } from './styles';
 
-function SearchBar({ title, onSearch, onClick }) {
+function SearchBar({ title, onSearch, onCreate }) {
   const [resetable, setResetable] = useState(false);
   const formRef = useRef(null);
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ function SearchBar({ title, onSearch, onClick }) {
           </button>
         </Form>
 
-        <button type="button" onClick={onClick}>
+        <button type="button" onClick={onCreate}>
           <MdAdd size={26} color={colors.white} /> Cadastrar
         </button>
       </div>
@@ -77,7 +77,7 @@ function SearchBar({ title, onSearch, onClick }) {
 SearchBar.propTypes = {
   title: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default memo(SearchBar);

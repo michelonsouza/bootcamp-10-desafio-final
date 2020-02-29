@@ -36,6 +36,28 @@ function RenderItem({ value, color, index }) {
         </DeliveryMans>
       );
     }
+
+    if (value.type === 'avatar') {
+      if (value.label) {
+        return (
+          <DeliveryMans color={color}>
+            <img src={value.label} alt="Entregador" title={value.name} />
+          </DeliveryMans>
+        );
+      }
+      const initial = nameInitials(value.name);
+
+      return (
+        <DeliveryMans color={color}>
+          <div>{initial}</div>
+        </DeliveryMans>
+      );
+    }
+
+    if (value.type === 'address') {
+      const { street, number, city, state } = value.label;
+      return <span>{`${street}, ${number}, ${city} - ${state}`}</span>;
+    }
   }
 
   return <span>{index === 0 ? `#${value}` : value}</span>;
@@ -71,7 +93,7 @@ function Item({ item, actions }) {
           <MdMoreHoriz size={30} color={colors.light.colorLight} />
         </button>
 
-        {visible && (
+        {visible && actions && (
           <div>
             {actions.see && (
               <button
@@ -100,10 +122,18 @@ function Item({ item, actions }) {
                 type="button"
                 onClick={() => {
                   setVisible(false);
-                  actions.deleteItem(item[0]);
+
+                  if (actions.deleteItem.label) {
+                    actions.deleteItem.fn(item[0]);
+                  } else {
+                    actions.deleteItem(item[0]);
+                  }
                 }}
               >
-                <MdDeleteForever color={colors.danger} size={20} /> Cancelar
+                <MdDeleteForever color={colors.danger} size={20} />{' '}
+                {actions.deleteItem.label
+                  ? actions.deleteItem.label
+                  : 'Cancelar'}
               </button>
             )}
           </div>
@@ -113,14 +143,6 @@ function Item({ item, actions }) {
   );
 }
 
-Item.defaultProps = {
-  actions: {
-    see: false,
-    edit: false,
-    deleteItem: false,
-  },
-};
-
 Item.propTypes = {
   item: PropTypes.arrayOf(
     PropTypes.oneOfType([
@@ -128,15 +150,33 @@ Item.propTypes = {
       PropTypes.number,
       PropTypes.shape({
         type: PropTypes.string,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.shape({
+            street: PropTypes.string,
+            number: PropTypes.number,
+            city: PropTypes.string,
+            state: PropTypes.string,
+          }),
+        ]),
       }),
     ])
   ).isRequired,
-  actions: PropTypes.shape({
-    see: PropTypes.oneOfType([PropTypes.oneOf([null]), PropTypes.func]),
-    edit: PropTypes.oneOfType([PropTypes.oneOf([null]), PropTypes.func]),
-    deleteItem: PropTypes.oneOfType([PropTypes.oneOf([null]), PropTypes.func]),
-  }),
+  actions: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      see: PropTypes.oneOfType([PropTypes.oneOf([undefined]), PropTypes.func]),
+      edit: PropTypes.oneOfType([PropTypes.oneOf([undefined]), PropTypes.func]),
+      deleteItem: PropTypes.oneOfType([
+        PropTypes.oneOf([null]),
+        PropTypes.func,
+        PropTypes.shape({
+          label: PropTypes.string,
+          fn: PropTypes.func,
+        }),
+      ]),
+    }),
+  ]).isRequired,
 };
 
 RenderItem.propTypes = {
@@ -144,7 +184,19 @@ RenderItem.propTypes = {
     PropTypes.string,
     PropTypes.number,
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+          street: PropTypes.string,
+          number: PropTypes.number,
+          city: PropTypes.string,
+          state: PropTypes.string,
+        }),
+      ]),
+      name: PropTypes.oneOfType([
+        PropTypes.oneOf([undefined]),
+        PropTypes.string,
+      ]),
       type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   ]).isRequired,

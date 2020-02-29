@@ -13,7 +13,7 @@ import api from '~/services/api';
 
 import Modal from './Modal';
 import OrderForm from './OrderForm';
-import { SearchBar, DataSet } from '~/components';
+import { SearchBar, DataSet, LoadingOverlay } from '~/components';
 
 export default function Orders() {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -57,7 +57,13 @@ export default function Orders() {
       setOrderEdit(orders.find(o => o.id === id));
     },
     deleteItem: id => {
-      dispatch(cancelOrderRequest(id));
+      const deleteItem = window.confirm(
+        `Tem certeza que deseja cancelar a encomenda #${id}?`
+      );
+
+      if (deleteItem) {
+        dispatch(cancelOrderRequest(id));
+      }
     },
   };
 
@@ -118,13 +124,13 @@ export default function Orders() {
 
   return (
     <>
+      {loading && <LoadingOverlay />}
       {!loading && !orderEdit && !create && (
         <>
-          {' '}
           <SearchBar
             title="Gerenciando Encomendas"
             onSearch={ordersFilteredRequest}
-            onClick={createOrder}
+            onCreate={createOrder}
           />
           <DataSet
             labels={labels}

@@ -86,12 +86,11 @@ function SelectInput({
           components={animatedComponents}
           id={name}
           loadOptions={loadOptions}
-          defaultInputValue={selected.label}
+          defaultInputValue={selected ? selected.label : ''}
           defaultValue={selected}
-          name={name}
           theme={theme}
           defaultOptions
-          noOptionsMessage={() => placeholder}
+          placeholder={placeholder}
           {...rest}
         />
       </label>
@@ -102,13 +101,14 @@ function SelectInput({
 SelectInput.defaultProps = {
   label: '',
   placeholder: '',
+  selected: null,
 };
 
 SelectInput.propTypes = {
   selected: PropTypes.shape({
     value: PropTypes.any,
     label: PropTypes.string,
-  }).isRequired,
+  }),
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   onSearch: PropTypes.func.isRequired,

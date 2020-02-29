@@ -18,17 +18,18 @@ export default function Input({ name, label, icon: Icon, ...rest }) {
   }, [fieldName, registerField]);
 
   return (
-    <InputGroup icon={Icon}>
+    <InputGroup icon={!!Icon} error={error}>
       <label htmlFor={name}>
         {label}
         <InputText
-          icon={Icon}
+          data-icon={!!Icon}
+          label={label}
           ref={inputRef}
           defaultValue={defaultValue}
           {...rest}
         />
       </label>
-      {Icon && <Icon size={26} color={colors.lightGrey} />}
+      {!!Icon && <Icon size={26} color={colors.lightGrey} />}
       {error && <span className="error">{error}</span>}
     </InputGroup>
   );
@@ -36,11 +37,11 @@ export default function Input({ name, label, icon: Icon, ...rest }) {
 
 Input.defaultProps = {
   label: null,
-  icon: null,
+  icon: false,
 };
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  icon: PropTypes.func,
+  icon: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 };
