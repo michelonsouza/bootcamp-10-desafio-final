@@ -50,11 +50,15 @@ export default function OrderDetails() {
       </Card>
 
       <ActionsContainer>
-        <Action>
+        {/* <Action next>
+          <Icon name="play-for-work" size={26} color={theme.colors.success} />
+          <ActionText>Retirar{'\n'}Entrega</ActionText>
+        </Action> */}
+        <Action next>
           <Icon name="highlight-off" size={26} color={theme.colors.danger} />
           <ActionText>Informar{'\n'}Problema</ActionText>
         </Action>
-        <Action center>
+        <Action next>
           <Icon name="info-outline" size={26} color={theme.colors.warning} />
           <ActionText>Visualizar{'\n'}Problemas</ActionText>
         </Action>

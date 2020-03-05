@@ -8,20 +8,17 @@ function caclBacklineWidth(props) {
 }
 
 export const Container = styled.View`
-  /* border: 2px solid ${props => props.theme.colors.borderColor}; */
   border-radius: ${props => props.theme.metrics.borderRadius};
   background: ${props => props.theme.colors.background};
   margin-bottom: ${props => props.theme.spacing.base * 1.5}px;
 
-  ${
-    Platform.OS === 'ios'
-      ? css`
-          box-shadow: 0 0 2px ${props => props.theme.colors.borderColor};
-        `
-      : css`
-          border: 2px solid ${props => props.theme.colors.borderColor};
-        `
-  }
+  ${Platform.OS === 'ios'
+    ? css`
+        box-shadow: 0 0 2px ${props => props.theme.colors.borderColor};
+      `
+    : css`
+        border: 2px solid ${props => props.theme.colors.borderColor};
+      `}
 `;
 
 export const Bullet = styled.View`
@@ -106,4 +103,20 @@ export const DataText = styled.Text.attrs({
   font-size: 14px;
   font-weight: bold;
   color: ${props => props.theme.colors[props.link ? 'primary' : 'textColor']};
+`;
+
+export const GetProduct = styled.TouchableOpacity`
+  padding: ${props => props.theme.spacing.base / 2}px;
+  background: ${props => props.theme.colors.success};
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-bottom-left-radius: ${props => props.theme.metrics.borderRadius};
+  border-bottom-right-radius: ${props => props.theme.metrics.borderRadius};
+`;
+
+export const GetProductText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 `;

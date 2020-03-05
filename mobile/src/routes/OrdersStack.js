@@ -48,7 +48,7 @@ export default function OrdersStack() {
       },
     },
     headerLeftContainerStyle: {
-      marginLeft: theme.spacing.base / 2,
+      marginLeft: theme.spacing.base / 1.5,
     },
   };
 

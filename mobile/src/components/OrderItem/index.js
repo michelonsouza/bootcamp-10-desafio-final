@@ -19,6 +19,8 @@ import {
   DataContainer,
   DataDesc,
   DataText,
+  GetProduct,
+  GetProductText,
 } from './styles';
 
 export default function OrderItem({ delivery }) {
@@ -80,6 +82,12 @@ export default function OrderItem({ delivery }) {
           <DataText link>Ver detalhes</DataText>
         </TouchableOpacity>
       </Footer>
+      {delivery.status === 'pending' && (
+        <GetProduct>
+          <Icon name="play-for-work" size={30} color="#fff" />
+          <GetProductText>Retirar Encomenda</GetProductText>
+        </GetProduct>
+      )}
     </Container>
   );
 }

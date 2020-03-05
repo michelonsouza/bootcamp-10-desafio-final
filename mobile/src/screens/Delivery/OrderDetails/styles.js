@@ -21,11 +21,10 @@ export const Action = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   ${props =>
-    props.center &&
+    props.next &&
     css`
       border-color: ${props.theme.colors.borderColor};
       border-style: solid;
-      border-left-width: 2px;
       border-right-width: 2px;
     `}
 `;
