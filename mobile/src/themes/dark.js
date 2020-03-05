@@ -1,18 +1,19 @@
 export default {
-  title: 'light',
+  title: 'dark',
 
   colors: {
-    primary: '#7D40E7',
+    primary: '#b387ff',
     secondary: '#A28FD0',
     success: '#82BF18',
     danger: '#E74040',
+    warning: '#E7BA40',
     background: '#101010',
     avatarBackground: '#F4EFFC61',
-    secondaryBackground: '#0e0f01',
+    secondaryBackground: '#202020',
     textColor: '#ffffff',
     textColorLight: '#eeeeee',
     secondaryTextColor: '#999999',
-    borderColor: '#0000001A',
+    borderColor: '#ffffff2A',
     boxShadow: '#ffffff26',
   },
   metrics: {

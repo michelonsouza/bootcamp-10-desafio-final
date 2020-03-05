@@ -1,19 +1,22 @@
 import React, { useRef, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StatusBar } from 'react-native';
 
 import logo_light from '~/assets/images/logo_light.png';
 
+import { loginRequest } from '~/store/modules/auth/actions';
 import { Button } from '~/components';
 import { Container, Form, Input, Logo } from './styles';
 
 export default function Login() {
   const [deliverymanId, setDeliverymanId] = useState(null);
-  // const { loading } = useSelector(state => state.auth);
-  // const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const inputRef = useRef();
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    dispatch(loginRequest(deliverymanId));
+  }
 
   return (
     <Container>
@@ -30,7 +33,7 @@ export default function Login() {
           placeholder="Informe seu ID de cadastro"
           ref={inputRef}
         />
-        <Button onPress={() => {}} variant="success">
+        <Button onPress={handleSubmit} variant="success" loading={loading}>
           Entrar no sistema
         </Button>
       </Form>

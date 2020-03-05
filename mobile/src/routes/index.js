@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-// import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -14,7 +14,7 @@ const options = {
 };
 
 export default function Routes() {
-  const signed = true;
+  const { signed } = useSelector(state => state.auth);
 
   return (
     <NavigationContainer>

@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
 
 export const Content = styled.View`
   flex: 1;
-  padding: ${props => props.theme.spacing.base}px;
+  padding: ${props => props.theme.spacing.base}px 0;
 `;
 
 export const Head = styled.View`
@@ -16,6 +16,7 @@ export const Head = styled.View`
   justify-content: space-between;
   margin-top: ${props => props.theme.spacing.base}px;
   margin-bottom: ${props => props.theme.spacing.base / 2}px;
+  padding: 0 ${props => props.theme.spacing.base}px;
 `;
 
 export const Title = styled.Text`
@@ -46,4 +47,20 @@ export const FilterText = styled.Text`
   font-weight: bold;
   color: ${props =>
     props.theme.colors[props.active ? 'primary' : 'secondaryTextColor']};
+`;
+
+export const OrderList = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})`
+  padding: 10px ${props => props.theme.spacing.base}px 10px;
+`;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  border-radius: ${props => props.theme.metrics.borderRadius};
+  margin: ${props => props.theme.spacing.base / 2}px
+    ${props => props.theme.spacing.base}px;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid ${props => props.theme.colors.borderColor};
 `;

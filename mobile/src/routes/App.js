@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from 'styled-components';
 
-import { Profile, Orders } from '~/screens';
+import { Profile } from '~/screens';
+import OrdersStack from './OrdersStack';
 
 const { Navigator: BottomTabNavigator, Screen } = createBottomTabNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
           shadowColor: theme.colors.boxShadow,
           shadowOffset: {
             height: 3,
+            width: 3,
           },
           shadowOpacity: 1,
           shadowRadius: 5,
@@ -32,15 +34,10 @@ export default function App() {
         labelStyle: {
           fontSize: 14,
         },
-      }}
-      screenOptions={{
-        style: {
-          background: '#fff',
-        },
       }}>
       <Screen
         name="Delivery"
-        component={Orders}
+        component={OrdersStack}
         options={{
           title: 'Entregas',
           /* eslint-disable react/prop-types */

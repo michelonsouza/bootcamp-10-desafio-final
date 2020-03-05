@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 import { useDarkMode } from 'react-native-dark-mode';
 
 import './config/ReactotronConfig';
 
+import { store, persistor } from './store';
 import light from './themes/light';
 import dark from './themes/dark';
 import Routes from './routes';
@@ -16,14 +19,16 @@ export default function Index() {
     return isDarkMode ? dark : light;
   }, [isDarkMode]);
   return (
-    <ThemeProvider theme={theme}>
-      <>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={theme.colors.primary}
-        />
-        <Routes />
-      </>
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={theme.colors.background}
+          />
+          <Routes />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 }

@@ -26,11 +26,18 @@ class DeliverymanDeliveries {
     const deliveries = await Order.findAndCountAll({
       where: {
         deliveryman_id: id,
-        end_date: {
-          [Op.ne]: null,
-        },
+        canceled_at: null,
+        end_date: null,
       },
-      attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+      attributes: [
+        'id',
+        'product',
+        'start_date',
+        'end_date',
+        'canceled_at',
+        'created_at',
+        'status',
+      ],
       offset: (page - 1) * limit,
       limit,
       include: [

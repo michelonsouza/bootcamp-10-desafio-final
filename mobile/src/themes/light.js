@@ -6,6 +6,7 @@ export default {
     secondary: '#A28FD0',
     success: '#82BF18',
     danger: '#E74040',
+    warning: '#E7BA40',
     background: '#ffffff',
     avatarBackground: '#F4EFFC',
     secondaryBackground: '#F8F9FD',
