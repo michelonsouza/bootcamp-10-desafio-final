@@ -5,13 +5,14 @@ export const ActionsContainer = styled.View`
   border-radius: ${props => props.theme.metrics.borderRadius};
   flex-direction: row;
 
-  ${Platform.OS === 'ios'
-    ? css`
-        box-shadow: 0 0 6px ${props => props.theme.colors.borderColor};
-      `
-    : css`
-        border: 2px solid ${props => props.theme.colors.borderColor};
-      `}
+  ${props =>
+    props.theme.title === 'light' && Platform.OS === 'ios'
+      ? css`
+          box-shadow: 0 0 6px ${props.theme.colors.borderColor};
+        `
+      : css`
+          border: 2px solid ${props.theme.colors.borderColor};
+        `}
 `;
 
 export const Action = styled.TouchableOpacity`
@@ -34,4 +35,10 @@ export const ActionText = styled.Text`
   font-size: 12px;
   text-align: center;
   margin-top: ${props => props.theme.spacing.base / 4}px;
+`;
+
+export const DateContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;

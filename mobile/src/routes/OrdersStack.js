@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -6,7 +6,7 @@ import { ThemeContext } from 'styled-components';
 import { useDarkMode } from 'react-native-dark-mode';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Orders, OrderDetails } from '~/screens';
+import { Orders, OrderDetails, ProblemSend, ProblemDetails } from '~/screens';
 
 const { Navigator: StackNavigator, Screen } = createStackNavigator();
 
@@ -18,6 +18,13 @@ export default function OrdersStack() {
   const headerBackground = useMemo(() => {
     return isDark ? 'secondaryBackground' : 'primary';
   }, [isDark]);
+
+  useEffect(() => {
+    navigation.addListener('tabPress', e => {
+      e.preventDefault();
+      navigation.navigate('Orders');
+    });
+  }, [navigation]);
 
   function backButton(to, prop) {
     return (
@@ -54,6 +61,7 @@ export default function OrdersStack() {
 
   return (
     <StackNavigator
+      initialRouteName="Orders"
       screenOptions={{
         gestureEnabled: false,
       }}>
@@ -71,6 +79,22 @@ export default function OrdersStack() {
         options={{
           ...options,
           title: 'Detalhes da encomenda',
+        }}
+      />
+      <Screen
+        name="ProblemSend"
+        component={ProblemSend}
+        options={{
+          ...options,
+          title: 'Informar problema',
+        }}
+      />
+      <Screen
+        name="ProblemDetails"
+        component={ProblemDetails}
+        options={{
+          ...options,
+          title: 'Visualizar Problemas',
         }}
       />
     </StackNavigator>

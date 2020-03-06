@@ -43,7 +43,7 @@ export const FilterButton = styled.TouchableOpacity`
 `;
 
 export const FilterText = styled.Text`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: ${props =>
     props.theme.colors[props.active ? 'primary' : 'secondaryTextColor']};

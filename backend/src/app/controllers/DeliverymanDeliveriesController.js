@@ -12,7 +12,7 @@ import { deliveryValidator, itsWorkTime } from '../../utils/validators';
 class DeliverymanDeliveries {
   async index(req, res) {
     const { id } = req.params;
-    const { page = 1, limit = 20 } = req.query;
+    const { page = 1, limit = 20, delivered } = req.query;
 
     const deliveryManExists = await DeliveryMan.findByPk(id);
 
@@ -23,12 +23,21 @@ class DeliverymanDeliveries {
       );
     }
 
+    const filter =
+      delivered === 'true'
+        ? {
+            end_date: {
+              [Op.ne]: null,
+            },
+          }
+        : {
+            deliveryman_id: id,
+            canceled_at: null,
+            end_date: null,
+          };
+
     const deliveries = await Order.findAndCountAll({
-      where: {
-        deliveryman_id: id,
-        canceled_at: null,
-        end_date: null,
-      },
+      where: filter,
       attributes: [
         'id',
         'product',

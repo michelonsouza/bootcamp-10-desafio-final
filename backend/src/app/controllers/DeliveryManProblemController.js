@@ -7,7 +7,7 @@ class DeliveryManProblemController {
   async index(req, res) {
     const problems = await DeliveryProblem.findAll({
       where: { delivery_id: req.params.id },
-      attributes: ['id', 'delivery_id', 'description'],
+      attributes: ['id', 'delivery_id', 'description', 'created_at'],
     });
 
     return res.format(problems);
@@ -20,7 +20,7 @@ class DeliveryManProblemController {
 
     await schema
       .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }));
+      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
 
     const { id: delivery_id } = req.params;
 

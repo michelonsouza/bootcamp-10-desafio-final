@@ -6,7 +6,10 @@ function contentWidth(base) {
   return width - base * 2;
 }
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView.attrs({
+  behavior: 'padding',
+  enabled: true,
+})`
   flex: 1;
   position: relative;
   background: ${props => props.theme.colors.background};

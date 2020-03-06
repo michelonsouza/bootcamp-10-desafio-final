@@ -47,7 +47,7 @@ export default function Header() {
         </InfoContainer>
       </DeliverymanContainer>
       <TouchableOpacity onPress={handleLogout}>
-        <Icon name="exit-to-app" size={24} color={theme.colors.danger} />
+        <Icon name="exit-to-app" size={26} color={theme.colors.danger} />
       </TouchableOpacity>
     </Container>
   );

@@ -13,6 +13,14 @@ export const DeliverymanContainer = styled.View`
   flex: 1;
 `;
 
+export const Avatar = styled.Image`
+  height: 68px;
+  width: 68px;
+  border-radius: 34px;
+  background: ${props => props.theme.colors.avatarBackground};
+  margin-right: 12px;
+`;
+
 export const AvatarInitials = styled.View`
   height: 68px;
   width: 68px;
@@ -21,14 +29,6 @@ export const AvatarInitials = styled.View`
   justify-content: center;
   margin-right: 12px;
   background: ${props => props.theme.colors.avatarBackground};
-`;
-
-export const Avatar = styled.Image`
-  height: 68px;
-  width: 68px;
-  border-radius: 34px;
-  background: ${props => props.theme.colors.avatarBackground};
-  margin-right: 12px;
 `;
 
 export const InfoContainer = styled.View`
