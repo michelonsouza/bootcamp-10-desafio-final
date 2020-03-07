@@ -69,8 +69,8 @@ export default function OrderDetails() {
           </DateContainer>
         </Card>
 
-        {actionActive && (
-          <ActionsContainer>
+        <ActionsContainer>
+          {actionActive && (
             <Action
               next
               onPress={() => navigation.navigate('ProblemSend', { delivery })}>
@@ -81,24 +81,20 @@ export default function OrderDetails() {
               />
               <ActionText>Informar{'\n'}Problema</ActionText>
             </Action>
-            <Action
-              next
-              onPress={() =>
-                navigation.navigate('ProblemDetails', { delivery })
-              }>
-              <Icon
-                name="info-outline"
-                size={26}
-                color={theme.colors.warning}
-              />
-              <ActionText>Visualizar{'\n'}Problemas</ActionText>
-            </Action>
+          )}
+          <Action
+            next
+            onPress={() => navigation.navigate('ProblemDetails', { delivery })}>
+            <Icon name="info-outline" size={26} color={theme.colors.warning} />
+            <ActionText>Visualizar{'\n'}Problemas</ActionText>
+          </Action>
+          {actionActive && (
             <Action>
               <Icon name="alarm-on" size={26} color={theme.colors.primary} />
               <ActionText>Confirmar{'\n'}Entrega</ActionText>
             </Action>
-          </ActionsContainer>
-        )}
+          )}
+        </ActionsContainer>
       </>
     </OrdersLayout>
   );

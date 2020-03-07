@@ -25,7 +25,7 @@ export const BackHeader = styled.View`
 
 export const Content = styled.View`
   border-radius: ${props => props.theme.metrics.borderRadius};
-  background: ${props => props.theme.colors.background};
+  /* background: ${props => props.theme.colors.background}; */
   margin: 0 ${props => props.theme.spacing.base}px;
   top: ${props => props.theme.spacing.base * (props.title ? 3 : 1.5)}px;
   position: absolute;

@@ -23,7 +23,7 @@ import {
   GetProductText,
 } from './styles';
 
-export default function OrderItem({ delivery }) {
+export default function OrderItem({ delivery, handleStartDelivery }) {
   const theme = useContext(ThemeContext);
   const navigation = useNavigation();
 
@@ -83,7 +83,7 @@ export default function OrderItem({ delivery }) {
         </TouchableOpacity>
       </Footer>
       {delivery.status === 'pending' && (
-        <GetProduct>
+        <GetProduct onPress={() => handleStartDelivery(delivery.id)}>
           <Icon name="play-for-work" size={30} color="#fff" />
           <GetProductText>Retirar Encomenda</GetProductText>
         </GetProduct>
@@ -93,6 +93,7 @@ export default function OrderItem({ delivery }) {
 }
 
 OrderItem.propTypes = {
+  handleStartDelivery: PropTypes.func.isRequired,
   delivery: PropTypes.shape({
     id: PropTypes.number,
     status: PropTypes.string,

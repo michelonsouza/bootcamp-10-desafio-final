@@ -116,7 +116,14 @@ class DeliverymanDeliveries {
 
     const delivery = await Order.findOne({
       where: { id: deliveryId },
-      attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+      attributes: [
+        'id',
+        'product',
+        'start_date',
+        'end_date',
+        'canceled_at',
+        'status',
+      ],
       include: [
         {
           model: Recipient,
@@ -152,6 +159,7 @@ class DeliverymanDeliveries {
         401
       );
     }
+
     if (isAfter(parseISO(req.body.start_date), new Date())) {
       return res.format(
         {
@@ -164,7 +172,40 @@ class DeliverymanDeliveries {
 
     await delivery.update(req.body);
 
-    return res.format(delivery);
+    const deliveryUpdatted = await Order.findByPk(deliveryId, {
+      attributes: [
+        'id',
+        'product',
+        'start_date',
+        'end_date',
+        'canceled_at',
+        'created_at',
+        'status',
+      ],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'id',
+            'name',
+            'street',
+            'number',
+            'complement',
+            'state',
+            'city',
+            'zipcode',
+          ],
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['path', 'url'],
+        },
+      ],
+    });
+
+    return res.format(deliveryUpdatted);
   }
 
   async update(req, res) {

@@ -14,6 +14,8 @@ import Routes from './routes';
 
 export default function Index() {
   const isDarkMode = useDarkMode();
+  // eslint-disable-next-line no-console
+  console.disableYellowBox = true;
 
   const theme = useMemo(() => {
     return isDarkMode ? dark : light;
