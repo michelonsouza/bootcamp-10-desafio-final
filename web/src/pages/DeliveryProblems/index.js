@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
-import {
-  problemsRequest,
-  problemCancelDelivery,
-} from '~/store/modules/problems/actions';
+import api from '~/services/api';
 import { DataSet, LoadingOverlay } from '~/components';
 
 import Modal from './Modal';
 
 export default function DeliveryProblems() {
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [problems, setProblems] = useState([]);
   const [selectedProblem, setSelectedProblem] = useState(null);
-  const { problems, loading } = useSelector(state => state.problems);
   const labels = ['Encomenda', 'Problema'];
   const actions = {
     see: id => {
@@ -20,22 +17,50 @@ export default function DeliveryProblems() {
     },
     deleteItem: {
       label: 'Cancelar encomenda',
-      fn: id => {
+      fn: async id => {
+        const problemId = problems.find(p => p.delivery.id === id).id;
         const deleteItem = window.confirm(
           `Tem certeza que deseja cancelar a encomenda #${id}?`
         );
 
         if (deleteItem) {
-          const { id: problemId } = problems.find(p => p.delivery.id === id);
-          dispatch(problemCancelDelivery(problemId));
+          setLoading(true);
+
+          try {
+            await api.delete(`/problem/${problemId}/cancel-delivery`);
+
+            toast.success(`Encomenda #${id} cancelada com sucesso`);
+          } catch (error) {
+            toast.error(`Erro ao cancelar encomenda #${id}`);
+          }
+
+          setLoading(false);
         }
       },
     },
   };
 
+  async function loadProblems(page = 1) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.get('/delivery/problems', {
+        params: {
+          page,
+        },
+      });
+
+      setProblems(response.data);
+    } catch (error) {
+      toast.error('Erro 500: Problema no servidor :(');
+    }
+
+    setLoading(false);
+  }
+
   useEffect(() => {
-    dispatch(problemsRequest());
-  }, [dispatch]);
+    loadProblems();
+  }, []);
 
   const formattedProblems = useMemo(() => {
     return problems.map(p => ({

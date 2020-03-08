@@ -57,13 +57,24 @@ class DistributorProblemController {
 
     const order = await Order.findOne({
       where: { id: problem.delivery_id },
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+        },
+        {
+          model: DeliveryMan,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+      ],
     });
 
     order.canceled_at = new Date();
 
     await order.save();
 
-    await Queue.add(CancellationMail.key, { order });
+    await Queue.add(CancellationMail.key, { delivery: order });
 
     return res.format(`Delivery #${order.id} successfully canceled`);
   }
