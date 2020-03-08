@@ -1,10 +1,12 @@
 import styled from 'styled-components/native';
 
+import light from '~/themes/light';
+
 export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme.colors.primary};
+  background: ${light.colors.primary};
   padding: 20px;
 `;
 
@@ -21,11 +23,11 @@ export const Logo = styled.Image`
   margin-bottom: 40px;
 `;
 
-export const Input = styled.TextInput.attrs(props => ({
-  placeholderTextColor: props.theme.colors.secondaryTextColor,
-}))`
-  height: ${props => props.theme.metrics.formElementsHeight};
-  border-radius: ${props => props.theme.metrics.borderRadius};
+export const Input = styled.TextInput.attrs({
+  placeholderTextColor: light.colors.secondaryTextColor,
+})`
+  height: ${light.metrics.formElementsHeight};
+  border-radius: ${light.metrics.borderRadius};
   background: #fff;
   color: #444;
   padding: 0 20px;

@@ -5620,6 +5620,13 @@ react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-i
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"
   integrity sha512-GFMtL0vHkiBv9HluwNZTggSn/sCyEt9n02aM0dSAjGGyqyNlAyftYm4phPxdvCigG15JreC5biwxCgTAJZ7yAA==
 
+react-native-camera@^3.19.0:
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-3.19.0.tgz#32c43908d3ba398c89d21437a9dba2ebb17f3896"
+  integrity sha512-ef3ccKUu5nYRvc2fXlnRDsrBPBygkXoMvk0c/mrgfLYgr4X0G/8Qg7t+MOAisQ0V6RastHVygpjgAW+dxcZnyA==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-dark-mode@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.2.2.tgz#4faa335e36330bfca832ba8b3d2bd84c7b880381"

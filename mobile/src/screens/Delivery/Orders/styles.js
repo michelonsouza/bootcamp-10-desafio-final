@@ -64,3 +64,17 @@ export const LoadingContainer = styled.View`
   align-items: center;
   border: 2px solid ${props => props.theme.colors.borderColor};
 `;
+
+export const NoOrdersContainer = styled.View`
+  border-radius: ${props => props.theme.metrics.borderRadius};
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoOrdersText = styled.Text`
+  color: ${props => props.theme.colors.secondaryTextColor};
+  margin-bottom: ${props => props.theme.spacing.base / 2}px;
+  font-size: 26px;
+  text-align: center;
+`;

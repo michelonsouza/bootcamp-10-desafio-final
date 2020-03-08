@@ -8,7 +8,14 @@ import api from '~/services/api';
 import { Header, OrderItem } from '~/components';
 
 import ListHeader from './ListHeader';
-import { Container, Content, OrderList, LoadingContainer } from './styles';
+import {
+  Container,
+  Content,
+  OrderList,
+  LoadingContainer,
+  NoOrdersContainer,
+  NoOrdersText,
+} from './styles';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -29,7 +36,7 @@ export default function Orders() {
       }
     );
 
-    setOrders(response.data.sort(a => (a.status === 'pending' ? -1 : 1)));
+    setOrders(response.data.sort(a => (a.status === 'pending' ? 1 : -1)));
     setLoading(false);
   }
 
@@ -61,7 +68,11 @@ export default function Orders() {
         `Encomenda #${id} retirada com sucesso, inicia sua entrega`
       );
     } catch (error) {
-      Alert.alert('Erro', `Erro ao retirar a encomenda #${id}`);
+      const [errorMessage] = error.response.data.error.errors;
+      Alert.alert(
+        'Erro',
+        `Erro ao retirar a encomenda #${id}: \n ${errorMessage}`
+      );
     }
 
     setLoading(false);
@@ -72,7 +83,7 @@ export default function Orders() {
       <Content>
         <Header />
         <ListHeader active={deliveredFilter} handlefilter={handlefilter} />
-        {!loading ? (
+        {!loading && orders.length > 0 && (
           <OrderList
             data={orders}
             keyExtractor={item => String(item.id)}
@@ -83,10 +94,18 @@ export default function Orders() {
               />
             )}
           />
-        ) : (
+        )}
+
+        {loading && (
           <LoadingContainer>
             <ActivityIndicator size="large" color={theme.colors.primary} />
           </LoadingContainer>
+        )}
+
+        {!orders.length > 0 && (
+          <NoOrdersContainer>
+            <NoOrdersText>Sem Encomendas para listar no momento.</NoOrdersText>
+          </NoOrdersContainer>
         )}
       </Content>
     </Container>

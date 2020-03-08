@@ -1,6 +1,11 @@
 import { Platform } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
+export const Container = styled.ScrollView`
+  flex: 1;
+  margin-bottom: 50px;
+`;
+
 export const ActionsContainer = styled.View`
   border-radius: ${props => props.theme.metrics.borderRadius};
   flex-direction: row;
@@ -41,4 +46,10 @@ export const DateContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const Signature = styled.Image`
+  width: 100%;
+  height: 120px;
+  border-radius: ${props => props.theme.metrics.borderRadius};
 `;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StatusBar } from 'react-native';
 
 import logo_light from '~/assets/images/logo_light.png';
+import light from '~/themes/light';
 
 import { loginRequest } from '~/store/modules/auth/actions';
 import { Button } from '~/components';
@@ -20,7 +21,10 @@ export default function Login() {
 
   return (
     <Container>
-      <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={light.colors.primary}
+      />
       <Form>
         <Logo source={logo_light} />
         <Input

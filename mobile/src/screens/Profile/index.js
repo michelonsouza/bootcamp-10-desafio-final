@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { format, parseISO } from 'date-fns';
-import { useNavigation } from '@react-navigation/native';
 
 import { nameInitials } from '~/utils/format';
 import { logout } from '~/store/modules/auth/actions';
@@ -21,7 +20,6 @@ import {
 export default function Profile() {
   const { deliveryman } = useSelector(state => state.deliveryman);
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const initials = useMemo(() => {
     return nameInitials(deliveryman.name);

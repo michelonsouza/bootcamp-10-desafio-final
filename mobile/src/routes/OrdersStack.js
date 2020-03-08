@@ -1,12 +1,18 @@
 import React, { useContext, useMemo, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from 'styled-components';
 import { useDarkMode } from 'react-native-dark-mode';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Orders, OrderDetails, ProblemSend, ProblemDetails } from '~/screens';
+import {
+  Orders,
+  OrderDetails,
+  ProblemSend,
+  ProblemDetails,
+  OrderConfirm,
+} from '~/screens';
 
 const { Navigator: StackNavigator, Screen } = createStackNavigator();
 
@@ -26,23 +32,24 @@ export default function OrdersStack() {
     });
   }, [navigation]);
 
-  function backButton(to, prop) {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          to
-            ? navigation.navigate(to, prop ? { prop } : {})
-            : navigation.goBack()
-        }>
-        <Icon name="chevron-left" size={40} color="#fff" />
-      </TouchableOpacity>
-    );
+  function backButton(to) {
+    return Platform.OS === 'ios'
+      ? {
+          haderLeft: () => (
+            <TouchableOpacity onPress={() => navigation.navigate(to)}>
+              <Icon name="chevron-left" size={40} color="#fff" />
+            </TouchableOpacity>
+          ),
+        }
+      : {};
   }
 
   const options = {
     headerBackTitleVisible: false,
     headerTintColor: isDark ? theme.colors.primary : '#fff',
-    cardShadowEnabled: false,
+    cardShadowEnabled: true,
+    gestureEnabled: true,
+    headerTitleAlign: 'center',
     headerTitleStyle: {
       fontWeight: 'bold',
       fontSize: 18,
@@ -55,46 +62,49 @@ export default function OrdersStack() {
       },
     },
     headerLeftContainerStyle: {
-      marginLeft: theme.spacing.base / 1.5,
+      marginLeft: theme.spacing.base / 1.3,
     },
   };
 
   return (
-    <StackNavigator
-      initialRouteName="Orders"
-      screenOptions={{
-        gestureEnabled: false,
-      }}>
+    <StackNavigator initialRouteName="Orders" screenOptions={options}>
       <Screen
         name="Orders"
         component={Orders}
         options={{
           headerShown: false,
-          headerLeft: () => backButton('Orders'),
         }}
       />
       <Screen
         name="OrderDetails"
         component={OrderDetails}
         options={{
-          ...options,
           title: 'Detalhes da encomenda',
+          ...backButton('Orders'),
         }}
       />
       <Screen
         name="ProblemSend"
         component={ProblemSend}
         options={{
-          ...options,
           title: 'Informar problema',
+          ...backButton('OrderDetails'),
         }}
       />
       <Screen
         name="ProblemDetails"
         component={ProblemDetails}
         options={{
-          ...options,
           title: 'Visualizar Problemas',
+          ...backButton('OrderDetails'),
+        }}
+      />
+      <Screen
+        name="OrderConfirm"
+        component={OrderConfirm}
+        options={{
+          title: 'Confirmar entrega',
+          ...backButton('OrderDetails'),
         }}
       />
     </StackNavigator>

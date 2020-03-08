@@ -7,7 +7,14 @@ import { format, parseISO } from 'date-fns';
 import { Card, DataDescribe, CardTitle } from '~/components';
 import OrdersLayout from '~/screens/_layouts/ordersLayout';
 
-import { ActionsContainer, Action, ActionText, DateContainer } from './styles';
+import {
+  Container,
+  ActionsContainer,
+  Action,
+  ActionText,
+  DateContainer,
+  Signature,
+} from './styles';
 
 export default function OrderDetails() {
   const theme = useContext(ThemeContext);
@@ -52,7 +59,7 @@ export default function OrderDetails() {
 
   return (
     <OrdersLayout>
-      <>
+      <Container>
         <Card>
           <CardTitle icon="local-shipping" title="Informações da entrega" />
           <DataDescribe title="Destinatário" data={delivery.recipient.name} />
@@ -69,6 +76,12 @@ export default function OrderDetails() {
           </DateContainer>
         </Card>
 
+        {delivery.signature && (
+          <Card noPadding>
+            <Signature source={{ uri: delivery.signature.url }} />
+          </Card>
+        )}
+
         <ActionsContainer>
           {actionActive && (
             <Action
@@ -83,19 +96,20 @@ export default function OrderDetails() {
             </Action>
           )}
           <Action
-            next
+            next={!actionActive || startDateFormatted !== '-- / -- / --'}
             onPress={() => navigation.navigate('ProblemDetails', { delivery })}>
             <Icon name="info-outline" size={26} color={theme.colors.warning} />
             <ActionText>Visualizar{'\n'}Problemas</ActionText>
           </Action>
-          {actionActive && (
-            <Action>
+          {actionActive && startDateFormatted !== '-- / -- / --' && (
+            <Action
+              onPress={() => navigation.navigate('OrderConfirm', { delivery })}>
               <Icon name="alarm-on" size={26} color={theme.colors.primary} />
               <ActionText>Confirmar{'\n'}Entrega</ActionText>
             </Action>
           )}
         </ActionsContainer>
-      </>
+      </Container>
     </OrdersLayout>
   );
 }

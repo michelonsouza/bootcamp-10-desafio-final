@@ -5,7 +5,10 @@ export const Container = styled.View`
   border-radius: ${props => props.theme.metrics.borderRadius};
   background: ${props => props.theme.colors.background};
   border: 2px solid ${props => props.theme.colors.borderColor};
-  padding: ${props => props.theme.spacing.base / 2}px
-    ${props => props.theme.spacing.base}px;
+  padding: ${props =>
+    props.noPadding
+      ? 0
+      : `${props.theme.spacing.base / 2}px
+    ${props.theme.spacing.base}px`};
   margin-bottom: ${props => props.theme.spacing.base * 0.5}px;
 `;
