@@ -59,6 +59,7 @@ export default function Orders() {
 
         try {
           await api.delete(`/orders/${id}`);
+          toast.success(`Encomenda #${id} cancelada com sucesso`);
         } catch (error) {
           toast.error(`Erro ao cancelar encomenda #${id}`);
         }
@@ -86,6 +87,12 @@ export default function Orders() {
     }
 
     setLoading(false);
+  }
+
+  function handleBack() {
+    setOrderEdit(null);
+    setTitle(null);
+    setCreate(false);
   }
 
   useEffect(() => {
@@ -150,8 +157,8 @@ export default function Orders() {
       const { data: response } = await api.post('/orders', data);
 
       setOrders([response.data, ...orders]);
-      setTitle(null);
-      setCreate(false);
+      handleBack();
+      loadOrders();
 
       toast.success(`Encomenda #${response.data.id} cadastrada com sucesso`);
     } catch (error) {
@@ -159,12 +166,6 @@ export default function Orders() {
     }
 
     setLoading(false);
-  }
-
-  function handleBack() {
-    setOrderEdit(null);
-    setTitle(null);
-    setCreate(false);
   }
 
   async function handleSearch(query) {

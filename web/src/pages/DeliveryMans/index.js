@@ -1,26 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-import {
-  deliverymansRequest,
-  createDeliveryman,
-  deleteDeliveryman,
-  updateDeliverymanRequest,
-  deliverymansFilterRequest,
-} from '~/store/modules/deliverymans/actions';
-
+import api from '~/services/api';
 import { SearchBar, DataSet, LoadingOverlay } from '~/components';
 
 import DeliverymanForm from './DeliverymanForm';
 
 export default function DeliveryMans() {
   const [title, setTitle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deliverymans, setDeliverymans] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [create, setCreate] = useState(null);
   const [deliverymanEdit, setDeliverymanEdit] = useState(null);
-  const { loading, deliverymans, pagination } = useSelector(
-    state => state.deliverymans
-  );
-  const dispatch = useDispatch();
   const labels = ['ID', 'Foto', 'Nome', 'Email'];
   const actions = {
     edit: id => {
@@ -29,13 +21,24 @@ export default function DeliveryMans() {
     },
     deleteItem: {
       label: 'Excluir',
-      fn: id => {
+      fn: async id => {
         const deleteItem = window.confirm(
           `Tem certeza que deseja deletar o entregador #${id}?`
         );
 
         if (deleteItem) {
-          dispatch(deleteDeliveryman(id));
+          setLoading(true);
+
+          try {
+            await api.delete(`/deliverymans/${id}`);
+
+            setDeliverymans(deliverymans.filter(d => d.id !== id));
+            toast.success(`Entregador #${id} excluido com sucesso`);
+          } catch (error) {
+            toast.error(`Erro ao excluir entregador #${id}`);
+          }
+
+          setLoading(false);
         }
       },
     },
@@ -54,9 +57,28 @@ export default function DeliveryMans() {
     }));
   }, [deliverymans]);
 
+  async function loadDeliverymans(page = 1, q = '') {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.get('/deliverymans', {
+        params: {
+          page,
+          q,
+        },
+      });
+
+      setDeliverymans(response.data);
+      setPagination(response.pagination);
+    } catch (error) {
+      toast.error('Erro 500: Erro interno no srvidor');
+    }
+
+    setLoading(false);
+  }
+
   useEffect(() => {
-    dispatch(deliverymansRequest());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadDeliverymans();
   }, []);
 
   function handleBack() {
@@ -65,18 +87,45 @@ export default function DeliveryMans() {
     setTitle(null);
   }
 
-  function handleCreateDeliveryman(data) {
-    dispatch(createDeliveryman(data));
-    handleBack();
+  async function handleCreateDeliveryman(data) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.post('/deliverymans', data);
+
+      setDeliverymans([response.data, ...deliverymans]);
+      toast.success(`Entregador #${response.data.id} cadastrado com sucesso`);
+      loadDeliverymans();
+    } catch (error) {
+      toast.error('Erro ao cadastrar entregador');
+    }
+
+    setLoading(false);
   }
 
-  function handleEditDeliveryman(data, id) {
-    dispatch(updateDeliverymanRequest(data, id));
+  async function handleUpdateDeliveryman(data, id) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.put(`/deliverymans/${id}`, data);
+
+      setDeliverymans(deliverymans.map(d => (d.id === id ? response.data : d)));
+      toast.success(`Entregador #${id} editado com sucesso`);
+      handleBack();
+    } catch (error) {
+      toast.error(`Erro ao editar entregador #${id}`);
+    }
+
+    setLoading(false);
   }
 
   function handleCreate() {
     setTitle('Cadastro de entregadores');
     setCreate(true);
+  }
+
+  function handleSearch(query = '') {
+    loadDeliverymans(1, query);
   }
 
   return (
@@ -86,14 +135,14 @@ export default function DeliveryMans() {
         <>
           <SearchBar
             title="Gerenciando entregadores"
-            onSearch={deliverymansFilterRequest}
+            onSearch={handleSearch}
             onCreate={handleCreate}
           />
           <DataSet
             labels={labels}
             data={formattedData}
             pagination={pagination}
-            onPageChange={deliverymansRequest}
+            onPageChange={loadDeliverymans}
             actions={actions}
           />
         </>
@@ -103,7 +152,7 @@ export default function DeliveryMans() {
         <DeliverymanForm
           deliveryman={deliverymanEdit}
           title={title}
-          onSubmit={handleEditDeliveryman}
+          onSubmit={handleUpdateDeliveryman}
           onBack={handleBack}
           edit
         />

@@ -8,7 +8,7 @@ export default function Pagination({ onPageChange, pagination }) {
   const { page, perPage, total } = pagination;
 
   const nextDisable = useMemo(() => {
-    return page * perPage > total;
+    return page * perPage >= total;
   }, [page, perPage, total]);
 
   function handlePrevPage() {
