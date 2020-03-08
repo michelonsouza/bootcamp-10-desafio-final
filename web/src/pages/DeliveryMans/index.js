@@ -71,7 +71,7 @@ export default function DeliveryMans() {
       setDeliverymans(response.data);
       setPagination(response.pagination);
     } catch (error) {
-      toast.error('Erro 500: Erro interno no srvidor');
+      toast.error('Erro 500: Erro interno no servidor');
     }
 
     setLoading(false);
@@ -93,9 +93,8 @@ export default function DeliveryMans() {
     try {
       const { data: response } = await api.post('/deliverymans', data);
 
-      setDeliverymans([response.data, ...deliverymans]);
-      toast.success(`Entregador #${response.data.id} cadastrado com sucesso`);
       loadDeliverymans();
+      toast.success(`Entregador #${response.data.id} cadastrado com sucesso`);
     } catch (error) {
       toast.error('Erro ao cadastrar entregador');
     }

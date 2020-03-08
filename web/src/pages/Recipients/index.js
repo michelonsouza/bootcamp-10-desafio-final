@@ -1,25 +1,18 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import api from '~/services/api';
 import { DataSet, SearchBar, LoadingOverlay } from '~/components';
-import {
-  recipientsRequest,
-  recipientCreateRequest,
-  recipientUpdateRequest,
-  deleteRecipient,
-  recipientsFilteredRequest,
-} from '~/store/modules/recipients/actions';
 
 import RecipientForm from './RecipeintForm';
 
 export default function Recipients() {
   const [create, setCreate] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [recipients, setRecipients] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [recipientEdit, setRecipientEdit] = useState(null);
   const [title, setTitle] = useState(null);
-  const dispatch = useDispatch();
-  const { loading, recipients, pagination } = useSelector(
-    state => state.recipients
-  );
   const labels = ['ID', 'Nome', 'Endereço'];
   const actions = {
     edit: id => {
@@ -28,21 +21,52 @@ export default function Recipients() {
     },
     deleteItem: {
       label: 'Excluir',
-      fn: id => {
+      fn: async id => {
         const deleteItem = window.confirm(
           `Tem certeza que deseja excluir o destinatário #${id}?`
         );
 
         if (deleteItem) {
-          dispatch(deleteRecipient(id));
+          setLoading(true);
+
+          try {
+            await api.delete(`/recipients/${id}`);
+
+            setRecipients(recipients.filter(r => r.id !== id));
+            toast.success(`Destinatário #${id} excluído com sucesso`);
+          } catch (error) {
+            toast.error(`Erro ao excluir destinatário #${id}`);
+          }
+
+          setLoading(false);
         }
       },
     },
   };
 
+  async function loadRecipients(page = 1, q = '') {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.get('/recipients', {
+        params: {
+          page,
+          q,
+        },
+      });
+
+      setRecipients(response.data);
+      setPagination(response.pagination);
+    } catch (error) {
+      toast.error('Erro 500: Erro interno no servidor');
+    }
+
+    setLoading(false);
+  }
+
   useEffect(() => {
-    dispatch(recipientsRequest());
-  }, [dispatch]);
+    loadRecipients();
+  }, []);
 
   const formattedRecipients = useMemo(() => {
     return recipients.map(item => ({
@@ -66,14 +90,40 @@ export default function Recipients() {
     setCreate(true);
   }
 
-  function handleCreateRecipient(data) {
-    dispatch(recipientCreateRequest(data));
-    handleBack();
+  async function handleCreateRecipient(data) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.post('/recipients', data);
+
+      loadRecipients();
+      toast.success(`Destinatário #${response.data.id} cadastrado com sucesso`);
+      handleBack();
+    } catch (error) {
+      toast.error('Erro ao cadastrar destinatário');
+    }
+
+    setLoading(false);
   }
 
-  function handleUpdateRecipient(data, id) {
-    dispatch(recipientUpdateRequest(data, id));
-    handleBack();
+  async function handleUpdateRecipient(data, id) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.put(`/recipients/${id}`, data);
+
+      setRecipients(recipients.map(r => (r.id === id ? response.data : r)));
+      toast.success(`Destinatário #${id} editado com sucesso`);
+      handleBack();
+    } catch (error) {
+      toast.error(`Erro ao editar destinatário #${id}`);
+    }
+
+    setLoading(false);
+  }
+
+  function handleSearch(query = '') {
+    loadRecipients(1, query);
   }
 
   return (
@@ -83,7 +133,7 @@ export default function Recipients() {
         <>
           <SearchBar
             title="Gerenciando Destinatários"
-            onSearch={recipientsFilteredRequest}
+            onSearch={handleSearch}
             onCreate={createRecipient}
           />
           <DataSet
