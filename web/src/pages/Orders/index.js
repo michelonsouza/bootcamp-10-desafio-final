@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  ordersRequest,
-  ordersFilteredRequest,
-  updateOrderRequest,
-  createOrderRequest,
-  cancelOrderRequest,
-} from '~/store/modules/orders/actions';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
@@ -17,11 +9,12 @@ import { SearchBar, DataSet, LoadingOverlay } from '~/components';
 
 export default function Orders() {
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [create, setCreate] = useState(false);
   const [title, setTitle] = useState(null);
   const [orderEdit, setOrderEdit] = useState(null);
-  const dispatch = useDispatch();
-  const { loading, orders, pagination } = useSelector(state => state.orders);
   const labels = [
     'ID',
     'Destinatário',
@@ -56,20 +49,47 @@ export default function Orders() {
       setTitle('Edição de encomendas');
       setOrderEdit(orders.find(o => o.id === id));
     },
-    deleteItem: id => {
+    deleteItem: async id => {
       const deleteItem = window.confirm(
         `Tem certeza que deseja cancelar a encomenda #${id}?`
       );
 
       if (deleteItem) {
-        dispatch(cancelOrderRequest(id));
+        setLoading(true);
+
+        try {
+          await api.delete(`/orders/${id}`);
+        } catch (error) {
+          toast.error(`Erro ao cancelar encomenda #${id}`);
+        }
+
+        setLoading(false);
       }
     },
   };
 
+  async function loadOrders(page = 1, q = '') {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.get('/orders', {
+        params: {
+          page,
+          q,
+        },
+      });
+
+      setOrders(response.data);
+      setPagination(response.pagination);
+    } catch (error) {
+      toast.error('Erro 500: Problema no servidor :(');
+    }
+
+    setLoading(false);
+  }
+
   useEffect(() => {
-    dispatch(ordersRequest());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadOrders();
   }, []);
 
   async function getDeliveryMans(query = '') {
@@ -107,19 +127,48 @@ export default function Orders() {
     setCreate(true);
   }
 
-  function handleUpdateOrder(data, id) {
-    dispatch(updateOrderRequest(data, id));
+  async function handleUpdateOrder(data, id) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.put(`/orders/${id}`, data);
+
+      setOrders(orders.map(o => (o.id === id ? response.data : o)));
+      toast.success(`Encomenda #${id} atualizada com sucesso`);
+    } catch (error) {
+      toast.error(`Erro ao atualizar encomenda #${id}`);
+    }
+
     setOrderEdit(null);
+    setLoading(false);
   }
 
-  function handleCreateOrder(data) {
-    dispatch(createOrderRequest(data));
+  async function handleCreateOrder(data) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.post('/orders', data);
+
+      setOrders([response.data, ...orders]);
+      setTitle(null);
+      setCreate(false);
+
+      toast.success(`Encomenda #${response.data.id} cadastrada com sucesso`);
+    } catch (error) {
+      toast.error('Erro ao criar nova encomenda');
+    }
+
+    setLoading(false);
   }
 
   function handleBack() {
     setOrderEdit(null);
     setTitle(null);
     setCreate(false);
+  }
+
+  async function handleSearch(query) {
+    loadOrders(1, query);
   }
 
   return (
@@ -129,14 +178,14 @@ export default function Orders() {
         <>
           <SearchBar
             title="Gerenciando Encomendas"
-            onSearch={ordersFilteredRequest}
+            onSearch={handleSearch}
             onCreate={createOrder}
           />
           <DataSet
             labels={labels}
             data={formattedOrders}
             actions={actions}
-            onPageChange={ordersRequest}
+            onPageChange={loadOrders}
             pagination={pagination}
           />
         </>

@@ -3,7 +3,6 @@ import { useRouteMatch } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { MdSearch, MdAdd, MdClear } from 'react-icons/md';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 
 import { colors } from '~/styles/defaults';
 
@@ -14,7 +13,6 @@ import { Container } from './styles';
 function SearchBar({ title, onSearch, onCreate }) {
   const [resetable, setResetable] = useState(false);
   const formRef = useRef(null);
-  const dispatch = useDispatch();
   const { path } = useRouteMatch();
   const placeholder = useMemo(() => {
     let basestr = 'Busca por ';
@@ -39,13 +37,13 @@ function SearchBar({ title, onSearch, onCreate }) {
   }, [path]);
 
   function handleSubmit(data) {
-    dispatch(onSearch(data.search));
+    onSearch(data.search);
     setResetable(true);
   }
 
   function handleReset() {
     const { reset } = formRef.current;
-    dispatch(onSearch());
+    onSearch();
     setResetable(false);
     reset();
   }

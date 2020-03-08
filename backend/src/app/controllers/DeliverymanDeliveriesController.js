@@ -26,6 +26,7 @@ class DeliverymanDeliveries {
     const filter =
       delivered === 'true'
         ? {
+            canceled_at: null,
             end_date: {
               [Op.ne]: null,
             },
@@ -95,6 +96,18 @@ class DeliverymanDeliveries {
       );
     }
 
+    if (!itsWorkTime(req.body.start_date)) {
+      return res.format(
+        {
+          type: 'unauthorized',
+          errors: [
+            'It is only allowed to start a delivery between 08:00 and 18:00 hours',
+          ],
+        },
+        401
+      );
+    }
+
     const { count: deliveryCount } = await Order.findAndCountAll({
       where: {
         deliveryman_id: id,
@@ -146,18 +159,6 @@ class DeliverymanDeliveries {
 
     if (invalid) {
       return res.format(invalid.data, invalid.status);
-    }
-
-    if (!itsWorkTime(req.body.start_date)) {
-      return res.format(
-        {
-          type: 'unauthorized',
-          errors: [
-            'It is only allowed to start a delivery between 08:00 and 18:00 hours',
-          ],
-        },
-        401
-      );
     }
 
     if (isAfter(parseISO(req.body.start_date), new Date())) {

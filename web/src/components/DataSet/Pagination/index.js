@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { PaginationContainer } from '../styles';
 
 export default function Pagination({ onPageChange, pagination }) {
-  const dispatch = useDispatch();
   const { page, perPage, total } = pagination;
 
   const nextDisable = useMemo(() => {
@@ -14,11 +12,11 @@ export default function Pagination({ onPageChange, pagination }) {
   }, [page, perPage, total]);
 
   function handlePrevPage() {
-    dispatch(onPageChange(page - 1));
+    onPageChange(page - 1);
   }
 
   function handleNextPage() {
-    dispatch(onPageChange(page + 1));
+    onPageChange(page + 1);
   }
 
   return (
