@@ -1,6 +1,6 @@
 ### Back-end da aplicação
 
-##### Iniciando a aplicação
+#### Iniciando a aplicação
 
 Copie o arquivo `.env.example`, cole e o renomeie para `.env`.
 
@@ -20,7 +20,7 @@ Este comando irá subir os `containers docker` necessários para a aplicação f
 
 Caso queira efetuar os comando separadamente fique a vontade.
 
-##### Rodando a aplicação
+#### Rodando a aplicação
 
 Basta abrir a raiz da pasta `backend` em seu terminal e inserir o comando:
 

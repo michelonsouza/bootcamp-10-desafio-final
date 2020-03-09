@@ -23,16 +23,16 @@
   <a href="/backend#readme">Back-end</a>&nbsp;|&nbsp;<a href="/web#readme">Fron-end</a>&nbsp;|&nbsp;<a href="/mobile#readme">Mobile</a>
 </p>
 
-<h3>📝 Descrição:</h3>
+<h4>📝 Descrição:</h4>
 
 <p>
   O intuito desta aplicação é ter um sistema simples e leve para gerenciar encomendas, seus status, problemas,        cadastramento, edição e exclusão das mesmas.
 </p>
 <p>
-  O projeto é utilizado apenas para fins didáticos e estruturado pela <a href="https://rocketseat.com.br">Rocketseat</a> como desafio final da turma 10 Bootcamp.
+  O projeto é utilizado apenas para fins didáticos e estruturado pela <a href="https://rocketseat.com.br">Rocketseat</a> como desafio final da turma 10 <a href="https://rocketseat.com.br/bootcamp">Bootcamp</a>.
 </p>
 
-<h3>🗒️ As teclogias utilizadas para a ciração deste projeto foram:</h3>
+<h4>🗒️ As teclogias utilizadas para a ciração deste projeto foram:</h4>
 
 <table width="100%" style="width: 100%;">
   <tr>

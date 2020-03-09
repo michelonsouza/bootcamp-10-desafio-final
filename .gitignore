@@ -12,6 +12,7 @@ tmp/uploads/*
 /build
 
 # FILES
+FastFeet.xd
 *.xd
 .env
 .env.local
