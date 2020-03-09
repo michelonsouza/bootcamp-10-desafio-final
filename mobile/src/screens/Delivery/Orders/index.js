@@ -102,7 +102,7 @@ export default function Orders() {
           </LoadingContainer>
         )}
 
-        {!orders.length > 0 && (
+        {!orders.length > 0 && !loading && (
           <NoOrdersContainer>
             <NoOrdersText>Sem Encomendas para listar no momento.</NoOrdersText>
           </NoOrdersContainer>
