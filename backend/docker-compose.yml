@@ -19,15 +19,15 @@ services:
     volumes:
       - 'fastredisdata:/data'
 
-  mongo:
-    container_name: go_mongo
-    image: 'mongo'
-    env_file: .env
-    command: 'mongod --auth --storageEngine wiredTiger'
-    ports:
-      - '27017:27017'
-    volumes:
-      - 'fastmongodata:/data/db'
+  # mongo:
+  #   container_name: fastfeet_mongo
+  #   image: 'mongo'
+  #   env_file: .env
+  #   command: 'mongod --auth --storageEngine wiredTiger'
+  #   ports:
+  #     - '27017:27017'
+  #   volumes:
+  #     - 'fastmongodata:/data/db'
 
 volumes:
   fastpgdata:
