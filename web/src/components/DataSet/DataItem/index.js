@@ -1,4 +1,4 @@
-import React, { useState, memo, useMemo, useContext } from 'react';
+import React, { useState, memo, useMemo, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeContext } from 'styled-components';
 import {
@@ -8,6 +8,7 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
+import { useOutClick } from '~/hooks';
 import { nameInitials, randomColor } from '~/util/format';
 import { DataItem, Status, DeliveryMans } from '../styles';
 
@@ -66,6 +67,8 @@ function RenderItem({ value, color, index }) {
 function Item({ item, actions }) {
   const [visible, setVisible] = useState(false);
   const theme = useContext(ThemeContext);
+  const floatMenuRef = useRef();
+
   const color = useMemo(() => {
     return randomColor();
   }, []);
@@ -73,6 +76,10 @@ function Item({ item, actions }) {
   function handleToggleVisible() {
     setVisible(!visible);
   }
+
+  useOutClick(floatMenuRef, () => {
+    handleToggleVisible();
+  });
 
   return (
     <DataItem>
@@ -95,7 +102,7 @@ function Item({ item, actions }) {
         </button>
 
         {visible && actions && (
-          <div>
+          <div ref={floatMenuRef}>
             {actions.see && (
               <button
                 type="button"

@@ -61,7 +61,7 @@ export const Container = styled.div`
     align-items: center;
 
     button:first-child {
-      background: ${props => props.theme.colors.warning};
+      background: ${props => props.theme.colors.danger};
       margin-left: ${props => props.theme.spacing.margin / 2}px;
 
       &[disabled] {
@@ -69,7 +69,7 @@ export const Container = styled.div`
       }
 
       &:hover {
-        background: ${props => darken(0.06, props.theme.colors.warning)};
+        background: ${props => darken(0.06, props.theme.colors.danger)};
       }
     }
 
@@ -83,7 +83,7 @@ export const Container = styled.div`
       }
 
       &:hover {
-        background: ${props => darken(0.06, props.theme.colors.danger)};
+        background: ${props => darken(0.07, props.theme.colors.danger)};
       }
     }
   }
