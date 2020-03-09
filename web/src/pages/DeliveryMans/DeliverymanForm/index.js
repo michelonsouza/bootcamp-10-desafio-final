@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Form } from '@unform/web';
 import { MdPerson, MdEmail, MdChevronLeft, MdCheck } from 'react-icons/md';
 import PropTypes from 'prop-types';
+import { ThemeContext } from 'styled-components';
 
-import { colors } from '~/styles/defaults';
 import { FormHeader, EditContainer } from '../styles';
 
 import { AvatarInput, Input } from '~/components';
@@ -16,6 +16,7 @@ export default function DeliverymanForm({
   edit,
 }) {
   const formRef = useRef(null);
+  const theme = useContext(ThemeContext);
 
   function handleSubmit() {
     const data = formRef.current.getData();
@@ -30,10 +31,16 @@ export default function DeliverymanForm({
         <h1>{title}</h1>
         <div>
           <button type="button" onClick={onBack}>
-            <MdChevronLeft size={26} color={colors.white} /> Voltar
+            <MdChevronLeft
+              size={26}
+              color={
+                theme.colors[theme.title === 'light' ? 'white' : 'darkGray']
+              }
+            />{' '}
+            Voltar
           </button>
           <button type="submit" form="deliveryman-form">
-            <MdCheck size={26} color={colors.white} /> Salvar
+            <MdCheck size={26} color={theme.colors.white} /> Salvar
           </button>
         </div>
       </FormHeader>

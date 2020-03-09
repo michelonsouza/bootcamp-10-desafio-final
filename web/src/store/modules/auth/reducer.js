@@ -5,7 +5,6 @@ import * as types from '~/store/types';
 const initalState = {
   signed: false,
   loading: false,
-  user: null,
   token: null,
 };
 

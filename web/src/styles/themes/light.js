@@ -12,11 +12,11 @@ export default {
     warning: '#C1BC35',
     success: '#2CA42B',
 
+    textColor: '#444',
+    secondaryTextColor: '#999',
     background: '#fff',
     appBackground: '#eee',
-    colorLight: '#ddd',
-    colorDefault: '#999',
-    colorDark: '#444',
+    borderColor: '#ddd',
   },
 
   spacing: {

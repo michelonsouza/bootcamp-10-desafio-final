@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Form } from '@unform/web';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
+import { ThemeContext } from 'styled-components';
 import {
   MdChevronLeft,
   MdCheck,
@@ -15,7 +16,6 @@ import {
   MdWarning,
 } from 'react-icons/md';
 
-import { colors } from '~/styles/defaults';
 import viacep from '~/services/viacep';
 
 import { Input } from '~/components';
@@ -36,6 +36,7 @@ export default function RecipientForm({
   edit,
 }) {
   const formRef = useRef(null);
+  const theme = useContext(ThemeContext);
   const [formValue, setFormValue] = useState(null);
 
   useEffect(() => {
@@ -73,10 +74,16 @@ export default function RecipientForm({
         <h1>{title}</h1>
         <div>
           <button type="button" onClick={onBack}>
-            <MdChevronLeft size={26} color={colors.white} /> Voltar
+            <MdChevronLeft
+              size={26}
+              color={
+                theme.colors[theme.title === 'light' ? 'white' : 'darkGrey']
+              }
+            />{' '}
+            Voltar
           </button>
           <button type="submit" form="recipients-form">
-            <MdCheck size={26} color={colors.white} /> Salvar
+            <MdCheck size={26} color={theme.colors.white} /> Salvar
           </button>
         </div>
       </FormHeader>
@@ -87,7 +94,7 @@ export default function RecipientForm({
         initialData={recipient}
       >
         <Info>
-          <MdWarning color={colors.light.colorDefault} size={22} />
+          <MdWarning color={theme.colors.secondaryTextColor} size={22} />
           <small>
             A alteração do CEP preenche automaticamente Rua, Cidade e Estado.
             Caso o CEP esteja correto.

@@ -17,7 +17,10 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: ${props =>
+    props.theme.title === 'light'
+      ? 'rgba(0, 0, 0, 0.3)'
+      : 'rgba(255, 255, 255, 0.3)'};
   position: absolute;
   top: 0;
   left: 0;

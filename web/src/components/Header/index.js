@@ -1,11 +1,14 @@
-import React, { memo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThemeContext } from 'styled-components';
 
 import logo from '~/assets/images/logo.png';
+import logoWhite from '~/assets/images/logo_white.png';
 import { logOut } from '~/store/modules/auth/actions';
+import { changeTheme } from '~/store/modules/user/actions';
 
-import { Container, Content } from './styles';
+import { Container, Content, SwitchButton } from './styles';
 
 const navLinks = [
   {
@@ -28,9 +31,20 @@ const navLinks = [
 
 function Header() {
   const dispatch = useDispatch();
+  const theme = useContext(ThemeContext);
+  const { theme: themeSelected } = useSelector(state => state.user);
+
+  const fastFeetLogo = useMemo(() => {
+    return theme.title === 'light' ? logo : logoWhite;
+  }, [theme.title]);
 
   function handleLogOut() {
     dispatch(logOut());
+  }
+
+  function togleTheme() {
+    const newTheme = themeSelected === 'light' ? 'dark' : 'light';
+    dispatch(changeTheme(newTheme));
   }
 
   return (
@@ -43,7 +57,7 @@ function Header() {
             className="logo"
             activeClassName="active"
           >
-            <img src={logo} alt="FastFeet" />
+            <img src={fastFeetLogo} alt="FastFeet" />
           </NavLink>
 
           {navLinks.map(link => (
@@ -58,10 +72,27 @@ function Header() {
           ))}
         </nav>
         <div>
-          <strong>Michelon Souza</strong>
-          <button type="button" title="Sair do sistema" onClick={handleLogOut}>
-            sair do sistema
-          </button>
+          <SwitchButton
+            type="button"
+            className="switch-container"
+            value={themeSelected}
+            onClick={togleTheme}
+          >
+            <span className="switch-circle">
+              {themeSelected === 'light' ? 'off' : 'on'}
+            </span>
+          </SwitchButton>
+
+          <div className="user-info">
+            <strong>Michelon Souza</strong>
+            <button
+              type="button"
+              title="Sair do sistema"
+              onClick={handleLogOut}
+            >
+              sair do sistema
+            </button>
+          </div>
         </div>
       </Content>
     </Container>

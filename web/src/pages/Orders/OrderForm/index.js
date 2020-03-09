@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Form } from '@unform/web';
 import PropTypes from 'prop-types';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
-
-import { colors } from '~/styles/defaults';
+import { ThemeContext } from 'styled-components';
 
 import { SelectInput, Input } from '~/components';
 
@@ -19,6 +18,7 @@ export default function OrderForm({
   edit,
 }) {
   const formRef = useRef(null);
+  const theme = useContext(ThemeContext);
 
   function handleSubmit() {
     const data = formRef.current.getData();
@@ -31,10 +31,16 @@ export default function OrderForm({
         <h1>{title}</h1>
         <div>
           <button type="button" onClick={onBack}>
-            <MdChevronLeft size={26} color={colors.white} /> Voltar
+            <MdChevronLeft
+              size={26}
+              color={
+                theme.colors[theme.title === 'dark' ? 'textSecondary' : 'white']
+              }
+            />{' '}
+            Voltar
           </button>
           <button type="submit" form="order-form">
-            <MdCheck size={26} color={colors.white} /> Salvar
+            <MdCheck size={26} color={theme.colors.white} /> Salvar
           </button>
         </div>
       </FormHeader>

@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useMemo, useContext } from 'react';
 import { useField } from '@unform/core';
 import PropTypes from 'prop-types';
 import { MdImage } from 'react-icons/md';
+import { ThemeContext } from 'styled-components';
 
 import { nameInitials, randomColor } from '~/util/format';
-import { colors } from '~/styles/defaults';
 import api from '~/services/api';
 
 import { Container, AltAvatar } from './styles';
@@ -14,6 +14,7 @@ export default function AvatarInput({ name, edit }) {
   const { defaultValue, registerField, fieldName } = useField('avatar');
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const theme = useContext(ThemeContext);
   const avatarAlt = useMemo(() => {
     return edit && nameInitials(edit);
   }, [edit]);
@@ -53,7 +54,7 @@ export default function AvatarInput({ name, edit }) {
         )}
         {!preview && !edit && (
           <AltAvatar column>
-            <MdImage size={50} color={colors.light.colorLight} />
+            <MdImage size={50} color={theme.colors.secondaryTextColor} />
             <p>Adicionar foto</p>
           </AltAvatar>
         )}

@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-import { colors, defaults } from '~/styles/defaults';
-
 const fadeAnimation = keyframes`
   from {
     opacity: 0;
@@ -35,7 +33,10 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${props =>
+    props.theme.title === 'light'
+      ? 'rgba(0, 0, 0, 0.5)'
+      : 'rgba(255, 255, 255, 0.3)'};
   position: absolute;
   top: 0;
   left: 0;
@@ -45,9 +46,9 @@ export const Overlay = styled.div`
 `;
 
 export const Content = styled.div`
-  background: ${colors.light.background};
-  border-radius: ${defaults.radius};
-  padding: ${defaults.spacing.padding}px;
+  background: ${props => props.theme.colors.background};
+  border-radius: ${props => props.theme.metrics.radius};
+  padding: ${props => props.theme.spacing.padding}px;
   width: 350px;
   max-width: 100% !important;
   animation: ${slideAnimation} 300ms ease-in-out forwards;
@@ -59,11 +60,11 @@ export const Content = styled.div`
   left: calc(50% - 175px);
 
   p {
-    color: ${colors.light.colorDefault};
+    color: ${props => props.theme.colors.secondaryTextColor};
   }
 
   div {
-    margin-top: ${defaults.spacing.margin}px;
+    margin-top: ${props => props.theme.spacing.margin}px;
 
     img {
       max-width: 100%;
@@ -72,7 +73,7 @@ export const Content = styled.div`
 `;
 
 export const EditContainer = styled.div`
-  margin: ${defaults.spacing.margin}px;
+  margin: ${props => props.theme.spacing.margin}px;
   width: 900px;
   max-width: 100% !important;
   margin: 0 auto;
@@ -80,9 +81,9 @@ export const EditContainer = styled.div`
   form {
     display: flex;
     flex-direction: column;
-    padding: ${defaults.spacing.padding}px;
-    background: ${colors.light.background};
-    border-radius: ${defaults.radius};
+    padding: ${props => props.theme.spacing.padding}px;
+    background: ${props => props.theme.colors.background};
+    border-radius: ${props => props.theme.metrics.radius};
 
     > div {
       display: flex;
@@ -90,7 +91,7 @@ export const EditContainer = styled.div`
       align-items: center;
 
       & + div {
-        margin-top: ${defaults.spacing.margin}px;
+        margin-top: ${props => props.theme.spacing.margin}px;
 
         label {
           flex: 1;
@@ -104,10 +105,11 @@ export const FormHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${defaults.spacing.margin}px;
+  margin-bottom: ${props => props.theme.spacing.margin}px;
 
   h1 {
     font-size: 24px;
+    color: ${props => props.theme.colors.textColor};
   }
 
   div {
@@ -116,15 +118,15 @@ export const FormHeader = styled.div`
     align-items: center;
 
     button {
-      height: ${defaults.metrics.height}px;
-      padding: 0 ${defaults.spacing.padding}px;
-      border-radius: ${defaults.radius};
+      height: ${props => props.theme.metrics.height}px;
+      padding: 0 ${props => props.theme.spacing.padding}px;
+      border-radius: ${props => props.theme.metrics.radius};
       display: flex;
       justify-content: center;
       align-items: center;
       text-transform: uppercase;
       font-weight: bold;
-      color: ${colors.white};
+      color: ${props => props.theme.colors.white};
       font-size: 14px;
 
       &:hover {
@@ -132,16 +134,20 @@ export const FormHeader = styled.div`
       }
 
       svg {
-        margin-right: ${defaults.spacing.margin / 3}px;
+        margin-right: ${props => props.theme.spacing.margin / 3}px;
       }
 
       &:first-child {
-        background: ${colors.light.colorDefault};
+        background: ${props => props.theme.colors.gray};
+        color: ${props =>
+          props.theme.colors[
+            props.theme.title === 'light' ? 'white' : 'darkGray'
+          ]};
       }
 
       &:last-child {
-        background: ${colors.primary};
-        margin-left: ${defaults.spacing.margin}px;
+        background: ${props => props.theme.colors.primary};
+        margin-left: ${props => props.theme.spacing.margin}px;
       }
     }
   }

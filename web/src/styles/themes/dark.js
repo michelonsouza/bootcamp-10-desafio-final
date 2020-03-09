@@ -12,17 +12,17 @@ export default {
     warning: '#C1BC35',
     success: '#2CA42B',
 
-    background: '#140037',
-    appBackground: '#333',
-    colorLight: '#fff',
-    colorDefault: '#eee',
-    colorDark: '#ccc',
+    textColor: '#fff',
+    secondaryTextColor: '#999',
+    // background: '#140037',
+    background: '#202020',
+    appBackground: '#323232',
+    borderColor: '#444',
   },
 
   spacing: {
     padding: 20,
     margin: 20,
-    loginPadding: '50px 20px',
   },
   metrics: {
     height: 44,

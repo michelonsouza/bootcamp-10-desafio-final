@@ -1,15 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form } from '@unform/web';
 import Spinner from 'react-spinner-material';
 import * as Yup from 'yup';
 import { MdEmail, MdLock } from 'react-icons/md';
+import { ThemeContext } from 'styled-components';
 
-import { colors } from '~/styles/defaults';
 import { loginRequest } from '~/store/modules/auth/actions';
 
 import logo from '~/assets/images/logo.png';
-import Input from '~/components/Input';
+import { Input } from '~/components';
 
 import { Container, Content, SendButton } from './styles';
 
@@ -17,6 +17,7 @@ export default function Login() {
   const formref = useRef(null);
   const loading = useSelector(state => state.auth.loading);
   const dispatch = useDispatch();
+  const theme = useContext(ThemeContext);
 
   async function handleSubimit(data) {
     try {
@@ -64,6 +65,7 @@ export default function Login() {
             label="Seu E-mail"
             type="email"
             placeholder="example@email.com"
+            exceptTheme
           />
           <Input
             icon={MdLock}
@@ -71,11 +73,16 @@ export default function Login() {
             label="Sua Senha"
             type="password"
             placeholder="************"
+            exceptTheme
           />
 
           <SendButton type="submit" disabled={loading ? 'disabled' : undefined}>
             {loading ? (
-              <Spinner size={24} spinnerColor={colors.white} spinnerWidth={3} />
+              <Spinner
+                size={24}
+                spinnerColor={theme.colors.white}
+                spinnerWidth={3}
+              />
             ) : (
               'Enviar no sistema'
             )}

@@ -1,17 +1,24 @@
-import React, { useMemo, useRef, useState, memo } from 'react';
+import React, { useMemo, useRef, useState, memo, useContext } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Form } from '@unform/web';
-import { MdSearch, MdAdd, MdClear } from 'react-icons/md';
+import {
+  MdSearch,
+  MdAdd,
+  MdClear,
+  MdFilterList,
+  MdClose,
+} from 'react-icons/md';
 import PropTypes from 'prop-types';
-
-import { colors } from '~/styles/defaults';
+import { ThemeContext } from 'styled-components';
 
 import Input from '../Input';
 
 import { Container } from './styles';
 
-function SearchBar({ title, onSearch, onCreate }) {
+function SearchBar({ title, onSearch, onCreate, withProblem }) {
   const [resetable, setResetable] = useState(false);
+  const [resetFilter, setResetFilter] = useState(false);
+  const theme = useContext(ThemeContext);
   const formRef = useRef(null);
   const { path } = useRouteMatch();
   const placeholder = useMemo(() => {
@@ -57,25 +64,56 @@ function SearchBar({ title, onSearch, onCreate }) {
           <button
             type="button"
             onClick={handleReset}
-            title="Limpar filtro"
+            title={`Limpar filtro de ${placeholder}`}
             disabled={!resetable}
           >
-            <MdClear color={colors.white} size={26} />
+            <MdClear color={theme.colors.white} size={26} />
           </button>
         </Form>
 
-        <button type="button" onClick={onCreate}>
-          <MdAdd size={26} color={colors.white} /> Cadastrar
+        {placeholder === 'Busca por Encomendas' && (
+          <div className="filter-container">
+            <button
+              type="button"
+              onClick={() => {
+                setResetFilter(true);
+                withProblem();
+              }}
+            >
+              <MdFilterList size={26} color={theme.colors.white} /> Filtrar
+              entregas com problemas
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                handleReset();
+                setResetFilter(false);
+              }}
+              disabled={!resetFilter}
+              title="Limpar filtros"
+            >
+              <MdClose size={26} color={theme.colors.white} />
+            </button>
+          </div>
+        )}
+        <button type="button" onClick={onCreate} title="Cadastrar">
+          <MdAdd size={26} color={theme.colors.white} /> Cadastrar
         </button>
       </div>
     </Container>
   );
 }
 
+SearchBar.defaultProps = {
+  withProblem: () => {},
+};
+
 SearchBar.propTypes = {
   title: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
+  withProblem: PropTypes.func,
 };
 
 export default memo(SearchBar);

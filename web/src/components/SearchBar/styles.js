@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
-import { colors, defaults } from '~/styles/defaults';
-
 export const Container = styled.div`
-  padding: 0 ${defaults.spacing.padding}px;
+  padding: 0 ${props => props.theme.spacing.padding}px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 
   h1 {
     font-size: 24px;
-    color: ${colors.light.colorDark};
-    margin-bottom: ${defaults.spacing.margin}px;
+    color: ${props => props.theme.colors.textColor};
+    margin-bottom: ${props => props.theme.spacing.margin}px;
   }
 
   > div {
@@ -30,7 +28,7 @@ export const Container = styled.div`
     display: flex;
 
     button {
-      margin-left: ${defaults.spacing.margin}px;
+      margin-left: ${props => props.theme.spacing.margin}px;
 
       &[disabled] {
         opacity: 0.6;
@@ -41,12 +39,12 @@ export const Container = styled.div`
 
   button {
     font-size: 14px;
-    height: ${defaults.metrics.height}px;
+    height: ${props => props.theme.metrics.height}px;
     border: 0;
-    border-radius: ${defaults.radius};
-    padding: 0 ${defaults.spacing.padding}px;
-    background: ${colors.primary};
-    color: ${colors.white};
+    border-radius: ${props => props.theme.metrics.radius};
+    padding: 0 ${props => props.theme.spacing.padding}px;
+    background: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.white};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +52,39 @@ export const Container = styled.div`
     font-weight: bold;
 
     &:hover {
-      background: ${darken(0.06, colors.primary)};
+      background: ${props => darken(0.06, props.theme.colors.primary)};
+    }
+  }
+
+  .filter-container {
+    display: flex;
+    align-items: center;
+
+    button:first-child {
+      background: ${props => props.theme.colors.warning};
+      margin-left: ${props => props.theme.spacing.margin / 2}px;
+
+      &[disabled] {
+        opacity: 0.6;
+      }
+
+      &:hover {
+        background: ${props => darken(0.06, props.theme.colors.warning)};
+      }
+    }
+
+    button:last-child {
+      background: ${props => props.theme.colors.danger};
+      margin-left: ${props => props.theme.spacing.margin / 2}px;
+
+      &[disabled] {
+        opacity: 0.6;
+        cursor: no-drop;
+      }
+
+      &:hover {
+        background: ${props => darken(0.06, props.theme.colors.danger)};
+      }
     }
   }
 `;

@@ -8,6 +8,7 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
+    transition: background 200ms, color 200ms, border-color 200ms ease;
   }
 
   *:focus {

@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
-import { colors } from '~/styles/defaults';
-
 export const Wrapper = styled.div`
   height: 100%;
-  background: ${colors.light.appBackground};
+  background: ${props => props.theme.colors.appBackground};
 `;
 
 export const Content = styled.div`

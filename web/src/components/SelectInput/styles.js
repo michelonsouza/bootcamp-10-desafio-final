@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
-import { defaults } from '~/styles/defaults';
-
 export const Container = styled.div`
   flex: 1;
 
+  label {
+    color: ${props => props.theme.colors.textColor};
+  }
+
   & + div {
-    margin-left: ${defaults.spacing.margin}px;
+    margin-left: ${props => props.theme.spacing.margin}px;
   }
 `;

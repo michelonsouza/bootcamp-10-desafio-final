@@ -4,44 +4,5 @@ export const LOGIN_SUCCESS = '@auth/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = '@auth/LOGIN_FAILURE';
 export const LOGOUT = '@auth/LOGOUT';
 
-// @ORDERS
-export const ORDERS_REQUEST = '@orders/ORDERS_REQUEST';
-export const ORDERS_SUCCESS = '@orders/ORDERS_SUCCESS';
-export const ORDERS_FILTERED = '@orders/ORDERS_FILTERED';
-export const CREATE_ORDER = '@orders/CREATE_ORDER';
-export const CANCEL_ORDER_REQUEST = '@orders/CANCEL_ORDER_REQUEST';
-export const UPDATE_ORDER_REQUEST = '@orders/UPDATE_ORDER_REQUEST';
-export const UPDATE_ORDER_SUCCESS = '@orders/UPDATE_ORDER_SUCCESS';
-export const ORDER_FAILURE = '@orders/ORDER_FAILURE';
-
-// @DELIVERYMANS
-export const DELIVERYMANS_REQUEST = '@deliverymans/DELIVERYMANS_REQUEST';
-export const DELIVERYMANS_SUCCESS = '@deliverymans/DELIVERYMANS_SUCCESS';
-export const DELIVERYMANS_FILTER_REQUEST =
-  '@deliverymans/DELIVERYMANS_FILTER_REQUEST';
-export const DELETE_DELIVERYMAN = '@deliverymans/DELETE_DELIVERYMAN';
-export const CREATE_DELIVERYMAN = '@deliverymans/CREATE_DELIVERYMAN';
-export const UPDATE_DELIVERYMAN_REQUEST =
-  '@deliverymans/UPDATE_DELIVERYMAN_REQUEST';
-export const UPDATE_DELIVERYMAN_SUCCESS =
-  '@deliverymans/UPDATE_DELIVERYMAN_SUCCESS';
-export const DELIVERYMAN_FAILURE = '@deliverymans/DELIVERYMAN_FAILURE';
-
-// @RECIPIENTS
-export const CREATE_RECIPIENT = '@recipients/CREATE_RECIPIENT';
-export const DELETE_RECIPIENT = '@recipients/DELETE_RECIPIENT';
-export const RECIPIENTS_REQUEST = '@recipients/RECIPIENTS_REQUEST';
-export const RECIPIENTS_FILTERED_REQUEST =
-  '@recipients/RECIPIENTS_FILTERED_REQUEST';
-export const RECIPIENTS_SUCCESS = '@recipients/RECIPIENTS_SUCCESS';
-export const RECIPIENTS_FAILURE = '@recipients/RECIPIENTS_FAILURE';
-export const RECIPIENTS_UPDATE_REQUEST =
-  '@recipients/RECIPIENTS_UPDATE_REQUEST';
-export const RECIPIENTS_UPDATE_SUCCESS =
-  '@recipients/RECIPIENTS_UPDATE_SUCCESS';
-
-// @PROBLEMS
-export const PROBLEMS_REQUEST = '@problems/PROBLEMS_REQUEST';
-export const PROBLEMS_FAILURE = '@problems/PROBLEMS_FAILURE';
-export const PROBLEMS_SUCCESS = '@problems/PROBLEMS_SUCCESS';
-export const PROBLEMS_CANCEL_DELIVERY = '@problems/PROBLEMS_CANCEL_DELIVERY';
+// @USER
+export const CHANGE_THEME = '@user/CHANGE_THEME';

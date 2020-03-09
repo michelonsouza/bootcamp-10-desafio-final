@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-import { colors, defaults } from '~/styles/defaults';
-
 export const StreetComponents = styled.div`
   &.street-components {
     display: flex;
     flex-direction: row;
     align-items: center !important;
     justify-content: space-between !important;
-    margin-top: ${defaults.spacing.margin / 2}px;
+    margin-top: ${props => props.theme.spacing.margin / 2}px;
 
     @media (max-width: 899px) {
       flex-direction: column;
@@ -30,7 +28,7 @@ export const StreetComponents = styled.div`
 
       & + div {
         flex: 1;
-        margin-left: ${defaults.spacing.margin}px;
+        margin-left: ${props => props.theme.spacing.margin}px;
       }
     }
   }
@@ -42,7 +40,7 @@ export const CityComponents = styled.div`
     flex-direction: row;
     align-items: center !important;
     justify-content: space-between !important;
-    margin-top: ${defaults.spacing.margin / 2}px;
+    margin-top: ${props => props.theme.spacing.margin / 2}px;
 
     @media (max-width: 899px) {
       flex-direction: column;
@@ -63,7 +61,7 @@ export const CityComponents = styled.div`
       flex: 1;
 
       & + div {
-        margin-left: ${defaults.spacing.margin}px;
+        margin-left: ${props => props.theme.spacing.margin}px;
       }
     }
   }
@@ -73,18 +71,20 @@ export const Info = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: ${defaults.spacing.padding / 5}px ${defaults.spacing.padding / 2}px;
-  border-radius: ${defaults.radius};
-  background: ${colors.light.appBackground};
-  border: 1px solid ${colors.light.colorDefault};
-  margin-bottom: ${defaults.spacing.margin}px;
+  padding: ${props =>
+    `${props.theme.spacing.padding / 5}px ${props.theme.spacing.padding /
+      2}px`};
+  border-radius: ${props => props.theme.metrics.radius};
+  background: ${props => props.theme.colors.appBackground};
+  border: 1px solid ${props => props.theme.colors.borderColor};
+  margin-bottom: ${props => props.theme.spacing.margin}px;
 
   svg {
-    margin-right: ${defaults.spacing.margin / 3}px;
+    margin-right: ${props => props.theme.spacing.margin / 3}px;
   }
 
   small {
-    color: ${colors.light.colorDefault};
+    color: ${props => props.theme.colors.secondaryTextColor};
     font-weight: bold;
   }
 `;

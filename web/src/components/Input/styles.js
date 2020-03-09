@@ -1,31 +1,41 @@
 import styled, { css } from 'styled-components';
 import InputMask from 'react-input-mask';
 
-import { colors, defaults } from '~/styles/defaults';
-
 export const InputText = styled(InputMask)`
-  height: ${defaults.metrics.height}px;
+  height: ${props => props.theme.metrics.height}px;
   padding: 0 10px;
-  border: 1px solid ${colors.gray};
-  border-radius: ${defaults.radius};
+  border: 1px solid
+    ${props =>
+      props.theme.colors[
+        props.excepttheme === 'true' ? 'gray' : 'borderColor'
+      ]};
+  border-radius: ${props => props.theme.metrics.radius};
+  background: ${props =>
+    props.theme.colors[props.excepttheme === 'true' ? 'white' : 'background']};
   margin-top: 10px;
-  caret-color: ${colors.primary};
-  color: ${colors.light.colorDefault};
+  caret-color: ${props => props.theme.colors.primary};
+  color: ${props =>
+    props.theme.colors[
+      props.excepttheme === 'true' ? 'lightGrey' : 'textColor'
+    ]};
   transition: all 200ms ease;
 
   &:focus {
-    border: 2px solid ${colors.primary};
+    border: 2px solid ${props => props.theme.colors.primary};
   }
 
   ${props =>
     props['data-icon'] &&
     css`
-      padding-left: ${defaults.spacing.padding * 2.3}px;
+      padding-left: ${props.theme.spacing.padding * 2.3}px;
       margin-top: ${props.label ? '10px' : 0};
     `}
 
   &::placeholder {
-    color: ${colors.lightGrey};
+    color: ${props =>
+      props.theme.colors[
+        props.excepttheme === 'true' ? 'lightGrey' : 'secondaryTextColor'
+      ]};
   }
 `;
 
@@ -37,7 +47,7 @@ export const InputGroup = styled.div`
     `};
 
   & + div {
-    margin-top: ${defaults.spacing.margin}px;
+    margin-top: ${props => props.theme.spacing.margin}px;
   }
 
   label {
@@ -46,7 +56,10 @@ export const InputGroup = styled.div`
     flex-direction: column;
     /* text-transform: uppercase; */
     font-weight: bold;
-    color: ${colors.darkGray};
+    color: ${props =>
+      props.theme.colors[
+        props.excepttheme === 'true' ? 'darkGrey' : 'textColor'
+      ]};
     font-size: 14px;
   }
 
@@ -54,12 +67,12 @@ export const InputGroup = styled.div`
     position: absolute;
     bottom: ${props => (props.error ? '31px' : '9px')};
     left: 10px;
-    margin-right: ${defaults.spacing.padding - 10}px;
+    margin-right: ${props => props.theme.spacing.padding - 10}px;
   }
 
   span.error {
-    color: ${colors.danger};
+    color: ${props => props.theme.colors.danger};
     font-size: 14px;
-    margin-top: ${defaults.spacing.margin / 12}px;
+    margin-top: ${props => props.theme.spacing.margin / 12}px;
   }
 `;

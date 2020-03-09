@@ -1,5 +1,6 @@
-import React, { useState, memo, useMemo } from 'react';
+import React, { useState, memo, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { ThemeContext } from 'styled-components';
 import {
   MdMoreHoriz,
   MdRemoveRedEye,
@@ -7,7 +8,6 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
-import { colors } from '~/styles/defaults';
 import { nameInitials, randomColor } from '~/util/format';
 import { DataItem, Status, DeliveryMans } from '../styles';
 
@@ -65,6 +65,7 @@ function RenderItem({ value, color, index }) {
 
 function Item({ item, actions }) {
   const [visible, setVisible] = useState(false);
+  const theme = useContext(ThemeContext);
   const color = useMemo(() => {
     return randomColor();
   }, []);
@@ -90,7 +91,7 @@ function Item({ item, actions }) {
           title="Ações"
           onClick={handleToggleVisible}
         >
-          <MdMoreHoriz size={30} color={colors.light.colorLight} />
+          <MdMoreHoriz size={30} color={theme.colors.secondaryTextColor} />
         </button>
 
         {visible && actions && (
@@ -103,7 +104,8 @@ function Item({ item, actions }) {
                   actions.see(item[0]);
                 }}
               >
-                <MdRemoveRedEye color={colors.primary} size={20} /> Visualizar
+                <MdRemoveRedEye color={theme.colors.primary} size={20} />{' '}
+                Visualizar
               </button>
             )}
             {actions.edit && (
@@ -114,7 +116,7 @@ function Item({ item, actions }) {
                   actions.edit(item[0]);
                 }}
               >
-                <MdModeEdit color={colors.info} size={20} /> Editar
+                <MdModeEdit color={theme.colors.info} size={20} /> Editar
               </button>
             )}
             {actions.deleteItem && (
@@ -130,7 +132,7 @@ function Item({ item, actions }) {
                   }
                 }}
               >
-                <MdDeleteForever color={colors.danger} size={20} />{' '}
+                <MdDeleteForever color={theme.colors.danger} size={20} />{' '}
                 {actions.deleteItem.label
                   ? actions.deleteItem.label
                   : 'Cancelar'}

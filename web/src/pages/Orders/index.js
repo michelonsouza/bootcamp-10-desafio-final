@@ -89,10 +89,29 @@ export default function Orders() {
     setLoading(false);
   }
 
+  async function handleOrderWithProblems(page = 1) {
+    setLoading(true);
+
+    try {
+      const { data: response } = await api.get('/orders-with-problems', {
+        params: {
+          page,
+        },
+      });
+
+      setOrders(response.data);
+      setPagination(response.pagination);
+    } catch (error) {
+      toast.error('Erro 500: Erro interno no servidor :(');
+    }
+
+    setLoading(false);
+  }
+
   function handleBack() {
     setOrderEdit(null);
-    setTitle(null);
     setCreate(false);
+    setTitle(null);
   }
 
   useEffect(() => {
@@ -181,6 +200,7 @@ export default function Orders() {
             title="Gerenciando Encomendas"
             onSearch={handleSearch}
             onCreate={createOrder}
+            withProblem={handleOrderWithProblems}
           />
           <DataSet
             labels={labels}
