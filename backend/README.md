@@ -1,4 +1,4 @@
-### Backend da aplicação
+### Back-end da aplicação
 
 ##### Iniciando a aplicação
 
