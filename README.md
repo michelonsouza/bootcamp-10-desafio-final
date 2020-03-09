@@ -20,7 +20,7 @@
 
 <h5 align="center">Projetos</h5>
 <p align="center">
-  <a href="/backend">Back-end</a>&nbsp;|&nbsp;<a href="/web">Fron-end</a>&nbsp;|&nbsp;<a href="/mobile">Mobile</a>
+  <a href="/backend#readme">Back-end</a>&nbsp;|&nbsp;<a href="/web">Fron-end</a>&nbsp;|&nbsp;<a href="/mobile">Mobile</a>
 </p>
 
 <h3>📝 Descrição:</h3>
@@ -96,3 +96,5 @@
     <td><a target="blank" rel="noopener noreferrer" href="https://sequelize.org/">Sequelize</a></td>
   </tr>
 </table>
+
+<h5 align="center">Made with 🖤 by Michelon Souza</h5>
