@@ -1,7 +1,7 @@
 import React, { useRef, useContext } from 'react';
 import { Form } from '@unform/web';
 import PropTypes from 'prop-types';
-import { MdChevronLeft, MdCheck } from 'react-icons/md';
+import { MdChevronLeft, MdCheck, MdPerson } from 'react-icons/md';
 import { ThemeContext } from 'styled-components';
 
 import { SelectInput, Input } from '~/components';
@@ -83,6 +83,7 @@ export default function OrderForm({
           name="product"
           type="text"
           placeholder="Nome do produto"
+          icon={MdPerson}
           required
         />
       </Form>

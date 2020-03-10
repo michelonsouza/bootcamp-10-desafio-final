@@ -9,4 +9,5 @@ tmp/uploads/*
 .DS_Store
 !tmp/uploads/.gitkeep
 !tmp/uploads/fake_avatar.png
+!tmp/uploads/fake_avatar_female.png
 !tmp/uploads/fake_signature.jpg

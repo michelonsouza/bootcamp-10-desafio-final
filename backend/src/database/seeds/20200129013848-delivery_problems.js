@@ -15,6 +15,12 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          delivery_id: 3,
+          description: 'Endereço errado',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ],
       {}
     );

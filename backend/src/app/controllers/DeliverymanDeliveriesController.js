@@ -26,6 +26,7 @@ class DeliverymanDeliveries {
     const filter =
       delivered === 'true'
         ? {
+            deliveryman_id: id,
             canceled_at: null,
             end_date: {
               [Op.ne]: null,
@@ -36,6 +37,7 @@ class DeliverymanDeliveries {
             canceled_at: null,
             end_date: null,
           };
+
 
     const deliveries = await Order.findAndCountAll({
       where: filter,

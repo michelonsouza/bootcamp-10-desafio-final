@@ -10,6 +10,12 @@ module.exports = {
           updated_at: new Date(),
         },
         {
+          name: 'fake_avatar_female.png',
+          path: 'fake_avatar_female.png',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
           name: 'fake_signature.jpg',
           path: 'fake_signature.jpg',
           created_at: new Date(),
