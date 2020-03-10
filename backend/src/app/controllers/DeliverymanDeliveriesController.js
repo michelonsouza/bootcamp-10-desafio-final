@@ -12,7 +12,7 @@ import { deliveryValidator, itsWorkTime } from '../../utils/validators';
 class DeliverymanDeliveries {
   async index(req, res) {
     const { id } = req.params;
-    const { page = 1, limit = 20, delivered } = req.query;
+    const { page = 1, limit = 6, delivered } = req.query;
 
     const deliveryManExists = await DeliveryMan.findByPk(id);
 

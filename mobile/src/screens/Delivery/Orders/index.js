@@ -19,25 +19,64 @@ import {
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(1);
+  const [pagination, setPagination] = useState(null);
   const [deliveredFilter, setDeliveredFilter] = useState('pending');
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true);
   const { deliveryman } = useSelector(state => state.deliveryman);
   const theme = useContext(ThemeContext);
 
-  async function loadOrders(delivered = false) {
+  async function loadOrders(delivered = false, page = 1) {
     setLoading(true);
-    const { data: response } = await api.get(
-      `/deliveryman/${deliveryman.id}/deliveries`,
-      {
-        params: {
-          delivered,
-        },
-      }
-    );
 
-    setOrders(response.data.sort(a => (a.status === 'pending' ? 1 : -1)));
+    try {
+      const { data: response } = await api.get(
+        `/deliveryman/${deliveryman.id}/deliveries`,
+        {
+          params: {
+            page,
+            delivered,
+          },
+        }
+      );
+
+      setOrders(response.data.sort(a => (a.status === 'pending' ? 1 : -1)));
+      setPagination(response.pagination);
+    } catch (error) {
+      Alert.alert('Erro', 'Erro 500: Problema internal com o servidor');
+    }
+
     setLoading(false);
+  }
+
+  async function handleLoadMore() {
+    try {
+      // currentPage * orders.length < pagination.total
+      if (orders.length < pagination.total) {
+        setLoadingMore(true);
+
+        const { data: response } = await api.get(
+          `/deliveryman/${deliveryman.id}/deliveries`,
+          {
+            params: {
+              page: currentPage + 1,
+              delivered: false
+            },
+          }
+        );
+
+        setCurrentPage(currentPage + 1);
+        setPagination(response.pagination);
+        setOrders([...orders, ...response.data]);
+        console.tron.log(orders.length);
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Erro 500: Problema internal com o servidor');
+    }
+
+    setLoadingMore(false);
   }
 
   useEffect(() => {
@@ -87,6 +126,10 @@ export default function Orders() {
           <OrderList
             data={orders}
             keyExtractor={item => String(item.id)}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.2}
+            initialNumToRender={10}
+            ListFooterComponent={() => loadingMore && <ActivityIndicator size="large" color={theme.colors.primary} />}
             renderItem={({ item }) => (
               <OrderItem
                 delivery={item}
