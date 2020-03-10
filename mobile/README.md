@@ -12,6 +12,10 @@ ou
 npm install
 ```
 
+#### Demonstração
+
+<img src="/.github/mobile.gif" alt="FastFeet" width="230" />
+
 #### Rodando a aplicação
 
 Após ter instalado as dependências da aplicação, ainda na raiz da pasta `mobile`, inicie seu emulador de preferência, sendo ele Android ou iOS, ou utilize um aparelho físico (preferência para o aparelho físico por causa da performance).
@@ -36,7 +40,8 @@ ou
 npm run android
 ```
 
-Aguarde o termino da `compilação` dos arquivos e sua aplicação
+Aguarde o termino da `compilação` dos arquivos e sua aplicação estará instalada e funcionando.
+
 #### Dark-mode
 
 Esta aplicação tem um modo darkmode, porém, o mesmo é passivo, ou seja; depende de seu sistema operacional. Caso seu sistema esteja com `dark-mode` ativo ele será repassado para o aplicativo, caso contrário a aplicação utilizará o tema `light`.
