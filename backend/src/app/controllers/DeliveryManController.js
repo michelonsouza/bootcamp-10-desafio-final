@@ -30,18 +30,6 @@ class DeliverymanController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string()
-        .email()
-        .required(),
-      avatar_id: Yup.number(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const deliveryExists = await DeliveryMan.findOne({
       where: { email: req.body.email },
     });
@@ -70,16 +58,6 @@ class DeliverymanController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      email: Yup.string().email(),
-      avatar_id: Yup.number(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const deliveryMan = await DeliveryMan.findByPk(req.params.id, {
       attributes: ['id', 'name', 'email'],
       include: [
@@ -111,14 +89,6 @@ class DeliverymanController {
   }
 
   async delete(req, res) {
-    const schema = Yup.object().shape({
-      id: Yup.number(),
-    });
-
-    await schema
-      .validate(req.params)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const deliveryMan = await DeliveryMan.findByPk(req.params.id);
 
     if (!deliveryMan) {

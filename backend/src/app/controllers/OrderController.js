@@ -65,16 +65,6 @@ class OrderController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      recipient_id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
-      product: Yup.string().required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { recipient_id, deliveryman_id } = req.body;
 
     const recipientExists = await Recipient.findByPk(recipient_id);
@@ -144,21 +134,6 @@ class OrderController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      recipient_id: Yup.number(),
-      deliveryman_id: Yup.number(),
-      product: Yup.string(),
-      // canceled_at: Yup.date(),
-      // start_date: Yup.date(),
-      // end_date: Yup.date().when('start_date', (start_date, field) =>
-      //   start_date ? field.date() : null
-      // ),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const order = await Order.findByPk(req.params.id);
 
     if (!order) {
@@ -250,14 +225,6 @@ class OrderController {
   }
 
   async delete(req, res) {
-    const schema = Yup.object().shape({
-      id: Yup.number(),
-    });
-
-    await schema
-      .validate(req.params)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const delivery = await Order.findOne({
       where: { id: req.params.id },
       attributes: [

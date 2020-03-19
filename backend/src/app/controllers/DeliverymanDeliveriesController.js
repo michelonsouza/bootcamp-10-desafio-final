@@ -38,7 +38,6 @@ class DeliverymanDeliveries {
             end_date: null,
           };
 
-
     const deliveries = await Order.findAndCountAll({
       where: filter,
       attributes: [
@@ -79,14 +78,6 @@ class DeliverymanDeliveries {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      start_date: Yup.date().required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { id, deliveryId } = req.params;
 
     const deliveryManExists = await DeliveryMan.findByPk(id);
@@ -212,15 +203,6 @@ class DeliverymanDeliveries {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      signature_id: Yup.number().required(),
-      end_date: Yup.date().required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { id, deliveryId } = req.params;
 
     const deliveryManExists = await DeliveryMan.findByPk(id);

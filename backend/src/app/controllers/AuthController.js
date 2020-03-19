@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import * as Yup from 'yup';
 
 import User from '../models/User';
 
@@ -7,19 +6,6 @@ import authConfig from '../../config/auth';
 
 class AuthController {
   async store(req, res) {
-    const schema = Yup.object().shape({
-      email: Yup.string()
-        .email()
-        .required(),
-      password: Yup.string()
-        .min(6)
-        .required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });

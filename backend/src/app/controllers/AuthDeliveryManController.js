@@ -1,18 +1,8 @@
-import * as Yup from 'yup';
-
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 
 class AuthDeliveryManController {
   async store(req, res) {
-    const schema = Yup.object().shape({
-      id: Yup.number().required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { id } = req.body;
 
     const deliveryman = await DeliveryMan.findByPk(id, {

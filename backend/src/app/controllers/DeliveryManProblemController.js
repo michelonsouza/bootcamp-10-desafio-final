@@ -14,14 +14,6 @@ class DeliveryManProblemController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      description: Yup.string().required(),
-    });
-
-    await schema
-      .validate(req.body)
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const { id: delivery_id } = req.params;
 
     const orderExists = await Order.findByPk(delivery_id);
