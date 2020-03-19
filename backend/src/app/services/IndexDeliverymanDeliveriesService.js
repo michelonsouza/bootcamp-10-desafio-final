@@ -5,9 +5,19 @@ import DeliveryMan from '../models/DeliveryMan';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
 
+import Cache from '../../lib/Cache';
+
 class IndexDeliveryManDeliveriesService {
   async run({ deliveryman_id, delivered, page, limit }) {
     const deliveryManExists = await DeliveryMan.findByPk(deliveryman_id);
+
+    const cacheKey = `deliveryman:${deliveryman_id}:deliveries:${page}`;
+
+    const cached = await Cache.get(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
 
     if (!deliveryManExists) {
       throw new ResponseError(
@@ -66,6 +76,8 @@ class IndexDeliveryManDeliveriesService {
         },
       ],
     });
+
+    await Cache.set(cacheKey, deliveries);
 
     return deliveries;
   }

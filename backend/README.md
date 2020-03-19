@@ -16,7 +16,7 @@ ou
 npm run app:init
 ```
 
-Este comando irá subir os `containers docker` necessários para a aplicação funcionar, instalar todas as dependências da aplicação (`node_modules`) e rodar todas as `migrations` para uma inicialização com alguns dados.
+Este comando irá subir os `containers docker` necessários para a aplicação funcionar, instalar todas as dependências da aplicação (`node_modules`) e rodar todas as `migrations` e as `seeds` para uma inicialização com alguns dados.
 
 Caso queira efetuar os comando separadamente fique a vontade.
 

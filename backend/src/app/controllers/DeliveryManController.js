@@ -1,12 +1,23 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 
+import UpdateDeliveryManService from '../services/UpdateDeliveryManService';
+
+import Cache from '../../lib/Cache';
+
 class DeliverymanController {
   async index(req, res) {
     const { page = 1, limit = 6, q = '' } = req.query;
+
+    const cacheKey = 'deliverymans:index';
+
+    const cached = await Cache.get(cacheKey);
+
+    if (cached) {
+      return res.format({ ...cached, page: Number(page), limit });
+    }
 
     const deliveryMans = await DeliveryMan.findAndCountAll({
       where: {
@@ -25,6 +36,8 @@ class DeliverymanController {
         },
       ],
     });
+
+    await Cache.set(cacheKey, { ...deliveryMans, page: Number(page), limit });
 
     return res.format({ ...deliveryMans, page: Number(page), limit });
   }
@@ -54,38 +67,24 @@ class DeliverymanController {
       ],
     });
 
+    await Cache.invalidate('deliverymans:index');
+
     return res.format(deliveryMan);
   }
 
   async update(req, res) {
-    const deliveryMan = await DeliveryMan.findByPk(req.params.id, {
-      attributes: ['id', 'name', 'email'],
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
-        },
-      ],
-    });
+    let deliveryMan = null;
 
-    if (!deliveryMan) {
-      return res.format('delivery not found', 404);
+    try {
+      deliveryMan = await UpdateDeliveryManService.run({
+        deliveryman_id: req.params.id,
+        data: req.body,
+      });
+    } catch ({ data, status }) {
+      return res.format(data, status);
     }
 
-    const { email } = req.body;
-
-    if (email !== deliveryMan.email) {
-      const deliveryExists = await DeliveryMan.findOne({ where: { email } });
-
-      if (deliveryExists) {
-        return res.format('delivery already exists', 401);
-      }
-    }
-
-    const { id, name, avatar } = await deliveryMan.update(req.body);
-
-    return res.format({ id, name, email, avatar });
+    return res.format(deliveryMan);
   }
 
   async delete(req, res) {
@@ -99,6 +98,8 @@ class DeliverymanController {
     }
 
     await deliveryMan.destroy();
+
+    await Cache.invalidate('deliverymans:index');
 
     return res.format(`Delivery man ${deliveryMan.name} successfully deleted`);
   }

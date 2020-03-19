@@ -5,6 +5,8 @@ import DeliveryMan from '../models/DeliveryMan';
 
 import { deliveryValidator } from '../../utils/validators';
 
+import Cache from '../../lib/Cache';
+
 class UpdateDeliveryManDeliveriesService {
   async run({ deliveryman_id, deliveryId, data }) {
     const deliveryManExists = await DeliveryMan.findByPk(deliveryman_id);
@@ -39,6 +41,8 @@ class UpdateDeliveryManDeliveriesService {
     }
 
     await delivery.update(data);
+
+    await Cache.invalidatePrefix(`deliveryman:${deliveryman_id}:deliveries`);
 
     return delivery;
   }

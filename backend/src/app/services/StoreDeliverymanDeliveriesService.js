@@ -6,11 +6,15 @@ import DeliveryMan from '../models/DeliveryMan';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
 
+import Cache from '../../lib/Cache';
+
 import { deliveryValidator, itsWorkTime } from '../../utils/validators';
 
 class StoreDeliveryManDeliveriesService {
   async run({ deliveryman_id, deliveryId, data }) {
     const deliveryManExists = await DeliveryMan.findByPk(deliveryman_id);
+
+    const cacheKey = `deliveryman:${deliveryman_id}:deliveries`;
 
     if (!deliveryManExists) {
       throw new ResponseError(
@@ -128,6 +132,8 @@ class StoreDeliveryManDeliveriesService {
         },
       ],
     });
+
+    await Cache.invalidatePrefix(cacheKey);
 
     return deliveryUpdatted;
   }
