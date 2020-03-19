@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import './database';
+import './lib/ResponseError';
 
 import express from 'express';
 import cors from 'cors';

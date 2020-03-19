@@ -3,8 +3,7 @@ import DeliveryMan from '../models/DeliveryMan';
 import Recipient from '../models/Recipient';
 import Order from '../models/Order';
 
-import CancellationMail from '../jobs/CancellationMail';
-import Queue from '../../lib/Queue';
+import DeleteDistributorProblemService from '../services/DeleteDistributorProblemService';
 
 class DistributorProblemController {
   async index(req, res) {
@@ -43,38 +42,13 @@ class DistributorProblemController {
   }
 
   async delete(req, res) {
-    const problem = await DeliveryProblem.findByPk(req.params.id);
+    let order = null;
 
-    if (!problem) {
-      return res.format(
-        {
-          type: 'notfound',
-          errors: ['Delivery problem not found'],
-        },
-        404
-      );
+    try {
+      order = await DeleteDistributorProblemService.run({ id: req.params.id });
+    } catch ({ data, status }) {
+      return res.format(data, status);
     }
-
-    const order = await Order.findOne({
-      where: { id: problem.delivery_id },
-      include: [
-        {
-          model: Recipient,
-          as: 'recipient',
-        },
-        {
-          model: DeliveryMan,
-          as: 'deliveryman',
-          attributes: ['name', 'email'],
-        },
-      ],
-    });
-
-    order.canceled_at = new Date();
-
-    await order.save();
-
-    await Queue.add(CancellationMail.key, { delivery: order });
 
     return res.format(`Delivery #${order.id} successfully canceled`);
   }

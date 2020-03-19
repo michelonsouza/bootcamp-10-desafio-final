@@ -26,7 +26,7 @@ class DeliverymanController {
       ],
     });
 
-    return res.format({ page: Number(page), limit, ...deliveryMans });
+    return res.format({ ...deliveryMans, page: Number(page), limit });
   }
 
   async store(req, res) {

@@ -9,6 +9,10 @@ import {
 } from 'date-fns';
 
 export function deliveryValidator(delivery, validations = []) {
+  function formatedDate(date) {
+    return format(date, "MMMM dd', 'yyyy 'at' HH:mm");
+  }
+
   if (!delivery) {
     return {
       data: { type: 'notfound', errors: ['Delivery not found'] },
@@ -17,30 +21,20 @@ export function deliveryValidator(delivery, validations = []) {
   }
 
   if (delivery.canceled_at !== null && validations.includes('canceled_at')) {
-    const formatedDate = format(
-      delivery.canceled_at,
-      "MMMM dd', 'yyyy 'at' HH:mm"
-    );
-
     return {
       data: {
         type: 'unauthorized',
-        errors: [`Delivery canceled on ${formatedDate}`],
+        errors: [`Delivery canceled on ${formatedDate(delivery.canceled_at)}`],
       },
       status: 401,
     };
   }
 
   if (delivery.start_date !== null && validations.includes('start_date')) {
-    const formatedDate = format(
-      delivery.start_date,
-      "MMMM dd', 'yyyy 'at' HH:mm"
-    );
-
     return {
       data: {
         type: 'unauthorized',
-        errors: [`Delivery started on ${formatedDate}`],
+        errors: [`Delivery started on ${formatedDate(delivery.start_date)}`],
       },
       status: 401,
     };
@@ -57,15 +51,10 @@ export function deliveryValidator(delivery, validations = []) {
   }
 
   if (delivery.end_date !== null && validations.includes('end_date')) {
-    const formatedDate = format(
-      delivery.end_date,
-      "MMMM dd', 'yyyy 'at' HH:mm"
-    );
-
     return {
       data: {
         type: 'unauthorized',
-        errors: [`Delivery ended on ${formatedDate}`],
+        errors: [`Delivery ended on ${formatedDate(delivery.end_date)}`],
       },
       status: 401,
     };
@@ -75,9 +64,9 @@ export function deliveryValidator(delivery, validations = []) {
 }
 
 export function itsWorkTime(date) {
-  const parsedDate = parseISO(date);
-  const startDate = setHours(setMinutes(setSeconds(new Date(), 0), 0), 8);
-  const endDate = setHours(setMinutes(setSeconds(new Date(), 0), 0), 18);
+  const parsedDate = date instanceof Date ? date : parseISO(date);
+  const startDate = setHours(setMinutes(setSeconds(date, 0), 0), 8);
+  const endDate = setHours(setMinutes(setSeconds(date, 0), 0), 18);
 
   return isAfter(parsedDate, startDate) && isBefore(parsedDate, endDate);
 }

@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Recipient from '../models/Recipient';
@@ -55,24 +54,6 @@ class RecipientController {
   }
 
   async update(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      street: Yup.string(),
-      number: Yup.number(),
-      state: Yup.string()
-        .min(2)
-        .max(2),
-      city: Yup.string(),
-      zipcode: Yup.string()
-        .min(8)
-        .max(9),
-      complement: Yup.string(),
-    });
-
-    await schema
-      .validate(req.body, { abortEarly: false })
-      .catch(({ errors }) => res.format({ type: 'validation', errors }, 400));
-
     const recipient = await Recipient.findByPk(req.params.id);
 
     if (!recipient) {
