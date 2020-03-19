@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import { resolve } from 'path';
 
 import responseNormalize from './app/middlewares/responseNormalize';
+import limit from './app/middlewares/limit';
 
 import routes from './routes';
 
@@ -28,6 +29,7 @@ class App {
       '/files',
       express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
     );
+    this.server.use(limit);
   }
 
   routes() {
