@@ -6,7 +6,7 @@ import { Overlay, Content } from '../styles';
 
 export default function Modal({ order, close }) {
   const { street, number, city, state, zipcode } = order.recipient;
-  const { start_date, end_date, signature } = order;
+  const { start_date, end_date, signature, product } = order;
 
   function dateFormat(date) {
     return format(parseISO(date), 'dd/MM/yyyy');
@@ -26,6 +26,11 @@ export default function Modal({ order, close }) {
           {city} - {state}
         </p>
         <p>{zipcode}</p>
+        <div>
+          <p>
+            <b>Produto:</b> {product}
+          </p>
+        </div>
 
         <div>
           <p>
@@ -58,6 +63,7 @@ Modal.propTypes = {
   order: PropTypes.shape({
     start_date: PropTypes.string,
     end_date: PropTypes.string,
+    product: PropTypes.string,
     signature: PropTypes.shape({
       url: PropTypes.string,
     }),
